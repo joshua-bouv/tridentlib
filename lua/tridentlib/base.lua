@@ -52,3 +52,16 @@ local function getBasePanel(self)
 	end
 end
 tridentlib("DefineFunction", "getBasePanel", getBasePanel, {"Panel"})
+
+local sin,cos,rad = math.sin,math.cos,math.rad;
+
+function CirclePoly(x,y,radius,quality)
+	local circle = {};
+    for i=1,quality do
+        circle[i] = {};
+        circle[i].x = x + cos(rad(i*360)/quality)*radius;
+        circle[i].y = y + sin(rad(i*360)/quality)*radius;
+    end
+    return circle;
+end
+tridentlib("DefineFunction", "CirclePoly", CirclePoly, {})
