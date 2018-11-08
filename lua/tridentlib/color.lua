@@ -25,9 +25,17 @@ end
 tridentlib("DefineFunction", "THEME::Get", GetTheme )
 
 local function CreateTheme(addon, theme, fallback)
-    _tridentlib.Theme[addon] = fallback
-    _tridentlib.ThemeFallback[addon] = fallback
-    _tridentlib.Themes[addon] = theme
+    if fallback then
+        if !_tridentlib.Theme[addon] then
+            _tridentlib.Theme[addon] = fallback
+        end
+        if !_tridentlib.ThemeFallback[addon] then
+            _tridentlib.ThemeFallback[addon] = fallback
+        end
+    end
+    for k,v in pairs(theme) do
+        _tridentlib.Themes[addon][k] = v
+    end
 end
 tridentlib("DefineFunction", "THEME::Create", CreateTheme )
 
