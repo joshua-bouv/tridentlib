@@ -50,6 +50,15 @@ local function SetTheme(addon, theme)
 end
 tridentlib("DefineFunction", "THEME::Set", SetTheme )
 
+local function GetThemes(addon)
+    if _tridentlib.Theme[addon] then
+        if _tridentlib.Themes[addon] then
+            return _tridentlib.Themes[addon]
+        end
+    end
+end
+tridentlib("DefineFunction", "THEME::GetAll", GetThemes )
+
 local function ApplyTheme(self, addon)
 
     local function apply(theme)
