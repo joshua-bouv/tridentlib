@@ -17,7 +17,7 @@ function Panel:Init()
     vbar:SetWidth(8)
 
     function vbar:Paint(w, h)
-        draw.RoundedBox(0, w-6, 0, 6, h, fade3)
+        draw.RoundedBox(0, w-6, 0, 6, h, fade2)
     end
 
     function vbar.btnUp:Paint() end
@@ -25,7 +25,7 @@ function Panel:Init()
     function vbar.btnDown:Paint() end
 
     function vbar.btnGrip:Paint(w, h)
-        draw.RoundedBox(0, w-6, 0, 6, h, fade)
+        draw.RoundedBox(0, w-6, 0, 6, h, fade5)
     end
 end
 

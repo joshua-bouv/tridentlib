@@ -14,8 +14,8 @@ function Panel:Init()
 	self.sliderTargetLerpValue = 0
 	self.sliderActive = false
 	self:SetValue(false)
-	self.colorLerpValue = Color(200, 200, 200, 255)
-	self.targetColorLerpValue = Color(200, 200, 200, 255)
+	self.colorLerpValue = alternativeBackground3
+	self.targetColorLerpValue = alternativeBackground3
 end
 
 function Panel:SizeSet(w, h)
@@ -57,7 +57,7 @@ end
 
 function Panel:SetActive()
 	self.sliderTargetLerpValue = self.sliderOnValue
-	self.targetColorLerpValue = lightBlueText
+	self.targetColorLerpValue = lightBlue
 	self.sliderActive = true
 	self:SetValue(true)
 end
@@ -67,7 +67,7 @@ function Panel:DoClick()
 
 	if self.sliderActive == false then
 		self.sliderTargetLerpValue = self.sliderOnValue
-		self.targetColorLerpValue = lightBlueText
+		self.targetColorLerpValue = lightBlue
 		self.sliderActive = true
 	else
 		self.sliderTargetLerpValue = self.sliderOffValue
