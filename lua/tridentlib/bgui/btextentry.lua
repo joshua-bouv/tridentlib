@@ -8,7 +8,7 @@
 local Panel = {}
 
 function Panel:Init()
-	self.Col = Color(255, 255, 255, 255)
+	self.Col = backGround
 	self.BottomHighlight = true
 	self.MenuTitle = ""
 	self.VisibleMenuTitle = ""
@@ -19,16 +19,16 @@ function Panel:Paint(w, h)
 	draw.RoundedBox(0, 0, 0, w, h, self.Col)
 
 	if self.BottomHighlight then
-		draw.RoundedBox(0, 0, 49, w, 1, fade3)
+		draw.RoundedBox(0, 0, 49, w, 1, fade2)
 	end
 
-	draw.SimpleText(self.VisibleMenuTitle, "eventsTextFontSmall", 3, 1, Color(68, 138, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-	draw.SimpleText(self.VisibleMenuMainTitle, self:GetFont(), 3, h/2, titleText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)	
+	draw.SimpleText(self.VisibleMenuTitle, "eventsTextFontSmall", 3, 1, blueText, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.SimpleText(self.VisibleMenuMainTitle, self:GetFont(), 3, h/2, text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)	
 
 	if self:IsHovered() then
-		self.Col = Color(235, 235, 235, 255)
+		self.Col = alternativeBackground
 	else
-		self.Col = Color(255, 255, 255, 255)
+		self.Col = backGround
 	end
 
 	if self:IsEditing() then

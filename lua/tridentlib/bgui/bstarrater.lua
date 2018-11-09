@@ -8,6 +8,7 @@
 local Panel = {}
 
 function Panel:Init()
+	self.editable = false
 	self.defaultVal = 3
 	self.hoveredVal = 3
 	self.starIcon = Material("materials/eventaddon/star_icon.png")
@@ -34,16 +35,6 @@ function Panel:Init()
 				surface.SetDrawColor(s.col)
 				surface.DrawTexturedRect(0, 0, w, h)
 			end
-			star.OnCursorEntered = function()
-				self.hoveredVal = i
-			end
-			star.OnCursorExited = function()
-				self.hoveredVal = self.defaultVal
-			end
-			star.DoClick = function()
-				self.defaultVal = i
-				self.hoveredVal = i				
-			end
 
 		self:AddItem(star)
 	end
@@ -52,6 +43,36 @@ end
 function Panel:SetRating(val)
 	self.defaultVal = val
 	self.hoveredVal = val
+end
+
+function Panel:SizeSet(val)
+	self:SetColWide(val)
+	self:SetRowHeight(val)
+	PrintTable(self:GetItems())
+	for _, v in pairs(self:GetItems()) do
+		v:SetSize(val, val)
+	end
+end
+
+function Panel:AddEditability()
+	self.star.OnCursorEntered = function()
+		self.hoveredVal = i
+	end
+	self.star.OnCursorExited = function()
+		self.hoveredVal = self.defaultVal
+	end
+	self.star.DoClick = function()
+		self.defaultVal = i
+		self.hoveredVal = i				
+	end
+end
+
+function Panel:SetEditable(bool)
+	self.editable = bool
+
+	if bool then
+		AddEditability()
+	end
 end
 
 vgui.Register("BStarRater", Panel, "DGrid")
