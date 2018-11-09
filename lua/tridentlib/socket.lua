@@ -16,15 +16,20 @@ local function CreateSocket(name, url, parameters, type, echo, msg, err, precall
 			params.data = table.Copy(_tridentlib.Sockets[name].Data)
 			_tridentlib.Sockets[name].Data = {}
 
+			local dat = util.JSONToTable(file.Read("ares_link.dat","DATA")) or {}
+			table.Merge(dat, params)
+
 			local request = {
 				url			= url,
-				method		= "post",
-				parameters = params.data,
+				method		= "get",
+				parameters = dat,
 				success = function( code, body, headers )
-					msg(code)
+					if body != "[]" then
+						msg(body, "normal")
+					end
 				end,
 				failed = function( reason )
-					err(reason)
+					err(reason, "danger")
 				end
 			}
 			HTTP( request )

@@ -30,7 +30,7 @@ function Panel:Init()
 
 	function self.Slider:Paint(w, h)
 		local x, _ = self.Knob:GetPos()
-		draw.RoundedBox(1, 5, h/2-2, w-10, 4, fade)
+		draw.RoundedBox(1, 5, h/2-2, w-10, 4, fade5)
 		draw.RoundedBox(1, 5, h/2-2, x, 4, lightBlueText)
 	end
 

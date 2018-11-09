@@ -99,7 +99,7 @@ local function LerpTransparency(frac, from, to)
 end
 tridentlib("DefineFunction", "LerpTransparency", LerpTransparency  )
 
-tridentlib("THEME::Create", "Events", {
+tridentlib("THEME::Create", "Test", {
     Default = {
         Dashboard = {
             Background = Color(255,0,0)
@@ -113,7 +113,7 @@ tridentlib("THEME::Create", "Events", {
 }, "Default")
 
 
-tridentlib("THEME::Set", "Events", "TransparentDashboard")
+tridentlib("THEME::Set", "Test", "TransparentDashboard")
 
 concommand.Add("dev", function()
     local DermaPanel = vgui.Create( "DFrame" )
@@ -125,6 +125,6 @@ concommand.Add("dev", function()
     DermaPanel.Paint = function(_, w, h, theme)
         draw.RoundedBox(0,0,0,w,h,theme.Dashboard.Background)
     end
-    DermaPanel:tridentlib("THEME::Apply", "Events")
+    DermaPanel:tridentlib("THEME::Apply", "Test")
 end)
 
