@@ -37,7 +37,7 @@ local function SlowLoad(self, data, func, skip)
 end
 tridentlib("DefineFunction", "SlowLoad", SlowLoad, {"Panel"})
 
-
+/*
 concommand.Add("test",function()
 	local frame = vgui.Create( "DFrame" )
 	frame:SetSize( 500, 500 )
@@ -64,3 +64,4 @@ concommand.Add("test",function()
 	DScrollPanel:tridentlib("SlowLoad", tridentlib("randTable", 40), loadmore)
 
 end)
+*/

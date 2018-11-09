@@ -34,6 +34,7 @@ local function CreateTheme(addon, theme, fallback)
         end
     end
     for k,v in pairs(theme) do
+        _tridentlib.Themes[addon] = {}
         _tridentlib.Themes[addon][k] = v
     end
 end
