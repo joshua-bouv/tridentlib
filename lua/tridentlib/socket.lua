@@ -11,6 +11,7 @@ local function CreateSocket(name, url, parameters, type, echo, msg, err, precall
 	if type == "http" then
 		_tridentlib.Sockets[name] = {}
 		_tridentlib.Sockets[name].Data = {}
+		echo("Connected to server: "..url, "success")
 		timer.Create("NLIB::HSocket-"..name, 1, 0, function()
 			local params = {}
 			params.data = table.Copy(_tridentlib.Sockets[name].Data)
@@ -30,6 +31,8 @@ local function CreateSocket(name, url, parameters, type, echo, msg, err, precall
 				end,
 				failed = function( reason )
 					err(reason, "danger")
+					tridentlib("SOCKET::RemoveSocket", "TridentcomAres", "http")
+					echo("Websocket disconnected", "warning")
 				end
 			}
 			HTTP( request )
@@ -65,6 +68,7 @@ local function CreateSocket(name, url, parameters, type, echo, msg, err, precall
 				function socket:onDisconnected()
 					_tridentlib.Sockets[name].Connected = 0
 					echo("Websocket disconnected", "warning")
+					_tridentlib.Sockets[name] = nil
 				end
 
 				precall(_tridentlib.Sockets[name])

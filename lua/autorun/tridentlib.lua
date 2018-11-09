@@ -78,14 +78,16 @@ function _tridentlib.FileLoader.parseFile(raw, full)
 	    data["prefix"] = data["prefix"] or prefix
 	    // check file contents
 	    local filedata = file.Read(full, "LUA")
-		local stage1 = string.Explode("--[[tridentlib", filedata)
-		if stage1[2] then
-			local stage2 = string.Explode("--tridentlib]]", stage1[2])
-			local filecontents = util.JSONToTable("{"..stage2[1].."}")
-			if filecontents then
-				data["prefix"] = filecontents["state"] or data["prefix"]
-				data["priority"] = filecontents["priority"] or data["priority"]
-				data["data"] = filecontents
+	    if filedata then
+			local stage1 = string.Explode("--[[tridentlib", filedata)
+			if stage1[2] then
+				local stage2 = string.Explode("--tridentlib]]", stage1[2])
+				local filecontents = util.JSONToTable("{"..stage2[1].."}")
+				if filecontents then
+					data["prefix"] = filecontents["state"] or data["prefix"]
+					data["priority"] = filecontents["priority"] or data["priority"]
+					data["data"] = filecontents
+				end
 			end
 		end
 	end
@@ -181,7 +183,6 @@ function _tridentlib.LoadAddon(data)
 	end
 	_tridentlib.FileLoader.ConsolePrint(data, " > Loaded Addon")
 end
-
 
 _tridentlib.LoadAddon({ folder = "tridentlib", func = "tridentlib" })
 
