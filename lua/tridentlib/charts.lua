@@ -98,6 +98,7 @@ local function CreateChart(self, type, data)
 end
 tridentlib("DefineFunction", "CHART::CreateChart", CreateChart)
 
+/*
 hook.Add("HUDPaint", "asdasd", function()
 	draw.NoTexture()
 
@@ -118,3 +119,4 @@ hook.Add("HUDPaint", "asdasd", function()
 		HSVToColor( (CurTime() * 100 ) % 360, 1, 1 ) )
 	
 end )
+*/
