@@ -66,7 +66,9 @@ local function CreateSocket(name, url, parameters, type, echo, msg, err, precall
 					echo("Connected to server: "..url, "success")
 				end
 				function socket:onDisconnected()
-					_tridentlib.Sockets[name].Connected = 0
+					if _tridentlib.Sockets[name] then
+						_tridentlib.Sockets[name].Connected = 0
+					end
 					echo("Websocket disconnected", "warning")
 					_tridentlib.Sockets[name] = nil
 				end
