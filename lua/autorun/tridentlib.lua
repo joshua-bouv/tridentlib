@@ -26,11 +26,12 @@ function _tridentlib.FunctionLoader.Define(name, func, metatables)
 	local explode = string.Explode("::", name)[1]
 	if metatables then
 		if metatables[1] then
-			if !_tridentlib.metaTables[explode] then
-				for _, v in pairs(metatables) do
+			_tridentlib.metaTables[explode] = _tridentlib.metaTables[explode] or {}
+			for _, v in pairs(metatables) do
+				if !_tridentlib.metaTables[explode][v] then
 					_tridentlib.FunctionLoader.Inject(v, explode, name)
+					_tridentlib.metaTables[explode][v] = true
 				end
-				_tridentlib.metaTables[explode] = true
 			end
 		end
 	end

@@ -14,6 +14,16 @@ end
 
 tridentlib("DefineFunction", "createUniqueHook", createUniqueHook )
 
+local function getPlayer(dat)
+	for k,v in pairs(player.GetAll()) do
+		if v:SteamID() == dat then return v end
+		if v:SteamID64() == dat then return v end
+		if v:GetUserGroup() == dat then return v end
+	end
+end
+
+tridentlib("DefineFunction", "getPlayer", getPlayer )
+
 
 local function randTable(amount)
 	local ret = {}

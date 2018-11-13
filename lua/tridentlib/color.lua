@@ -115,6 +115,7 @@ tridentlib("THEME::Create", "Test", {
 
 tridentlib("THEME::Set", "Test", "TransparentDashboard")
 
+/*
 concommand.Add("dev", function()
     local DermaPanel = vgui.Create( "DFrame" )
     DermaPanel:SetPos( 100, 100 )
@@ -127,4 +128,4 @@ concommand.Add("dev", function()
     end
     DermaPanel:tridentlib("THEME::Apply", "Test")
 end)
-
+*/
