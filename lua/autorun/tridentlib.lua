@@ -1,4 +1,4 @@
--- TRIDENTLIB 2.0
+-- TRIDENTLIB 2.0  
 _tridentlib = {}     
 _tridentlib.metaTables = {}  
 
