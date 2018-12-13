@@ -41,6 +41,9 @@ function Panel:Zoom(panels, change)
 	self.size = change
 
 	for _, v in pairs(panels) do
+		print("x tlib "..v.CurrentPos["x"])
+		print("y tlib "..v.CurrentPos["y"])
+
 		v:SetPos(self:CalculatePosition(v, v.CurrentPos["x"], v.CurrentPos["y"]))
 		v:ChangeSize(self.size)
 	end

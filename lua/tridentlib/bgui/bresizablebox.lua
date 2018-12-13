@@ -19,19 +19,6 @@ function Panel:ChangeSize(size)
 
 	self:SetSize(sizeW, sizeH)
 
---	local wPan, hPan = self:GetSize()
-
---	local wPan = wPan+2
---	local hPan = hPan+2
-
---	if not size then
---		wPan = wPan-4
---		hPan = hPan-4
---	end
-
---	self:SetSize(wPan, hPan)
-
---	self.scale = hPan/self.scaleH
 	self.FontScale = math.Round(self.FontSize/self.scale, 0)
 end
 

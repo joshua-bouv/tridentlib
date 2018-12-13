@@ -1,5 +1,5 @@
 --[[tridentlib
-  "name": "Text Entry",
+  "name": "Password Entry",
   "state": "Client",
   "priority": 3
 --tridentlib]]
@@ -15,6 +15,8 @@ function Panel:Init()
 	self.MenuTitle = ""
 	self.VisibleMenuTitle = ""
 	self.VisibleMenuMainTitle = ""
+	self.lengthOfText = {} 
+	self.length = 0
 end
 
 function Panel:Paint(w, h)
@@ -51,7 +53,15 @@ function Panel:Paint(w, h)
 		end
 	end
 
-	self:DrawTextEntryText(self:GetTextColor(), self:GetHighlightColor(), self:GetCursorColor())
+	self.lengthOfText = {} 
+
+	self.length = string.len(self:GetText()) 
+
+	for i = 1, self.length do 
+		table.insert(self.lengthOfText, "●") 
+	end 
+
+	draw.SimpleText(table.concat(self.lengthOfText, ""), "eventsTextFont", 2, h/2, text , TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 end
 
 function Panel:ShowBottomHighlight(bool)
@@ -69,4 +79,4 @@ function Panel:SetColors(primary, alternative)
 	self.Col = self.PrimaryCol
 end
 
-vgui.Register("BTextEntry", Panel, "DTextEntry")
+vgui.Register("BPassEntry", Panel, "DTextEntry")

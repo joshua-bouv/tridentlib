@@ -1,14 +1,14 @@
--- TRIDENTLIB 2.0
-_tridentlib = {}
-_tridentlib.metaTables = {}
+-- TRIDENTLIB 2.0  
+_tridentlib = {}     
+_tridentlib.metaTables = {}  
 
 _tridentlib.FileLoader = {}
-_tridentlib.FileLoader.Data = {}
+_tridentlib.FileLoader.Data = {} 
 
 _tridentlib.FunctionLoader = {}
-_tridentlib.FunctionLoader.Functions = {}
+_tridentlib.FunctionLoader.Functions = {} 
 
---[ FUNCTION lOADER ]
+--[ FUNCTION lOADER ]  
 function _tridentlib.FunctionLoader.Inject(v, explode, name)
 	local inject = [[
 		local meta = FindMetaTable("%s")
@@ -37,7 +37,7 @@ function _tridentlib.FunctionLoader.Define(name, func, metatables)
 	end
 	_tridentlib.FunctionLoader.Functions[name] = func
 end
-/*
+/*  
 function _tridentlib.TableInject(name)
 	local inject = [[
 		%s = {}

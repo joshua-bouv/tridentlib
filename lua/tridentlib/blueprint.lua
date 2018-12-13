@@ -23,7 +23,6 @@ local function SetDraggableHeight(self, height)
 		end
 		function self:OnMouseReleased()
 			self.Dragging = nil
-			//self.Sizing = nil
 			self:MouseCapture( false )
 		end
 	end
