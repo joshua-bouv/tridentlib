@@ -7,11 +7,13 @@
 _tridentlib.Sockets = _tridentlib.Sockets or {} 
 _tridentlib.Sockets.Included = 0
 
-local function CreateSocket(name, url, parameters, type, echo, msg, err, precall)
+local function CreateSocket(name, url, parameters, type, echo, msg, err, precall, connected)
+	/*
 	if type == "http" then
 		_tridentlib.Sockets[name] = {}
 		_tridentlib.Sockets[name].Data = {}
 		echo("Connected to server: "..url, "success")
+		connected()
 		timer.Create("NLIB::HSocket-"..name, 1, 0, function()
 			local params = {}
 			params.data = table.Copy(_tridentlib.Sockets[name].Data)
@@ -37,7 +39,7 @@ local function CreateSocket(name, url, parameters, type, echo, msg, err, precall
 			}
 			HTTP( request )
 		end)
-	end
+	end*/ // might re-add http sometime but NO. NO NO. Only when someone complains or pays me.
 
 	if type == "gwsockets" then
 		if _tridentlib.Sockets.Included == 0 then
@@ -64,6 +66,7 @@ local function CreateSocket(name, url, parameters, type, echo, msg, err, precall
 				function socket:onConnected()
 					_tridentlib.Sockets[name].Connected = 1
 					echo("Connected to server: "..url, "success")
+					connected()
 				end
 				function socket:onDisconnected()
 					if _tridentlib.Sockets[name] then
@@ -90,9 +93,9 @@ end
 tridentlib("DefineFunction", "SOCKET::CreateSocket", CreateSocket)
 
 local function RemoveSocket(name, type)
-	if type == "http" then
+	/*if type == "http" then
 		timer.Remove("NLIB::HSocket-"..name)
-	end
+	end*/
 	if type == "gwsockets" then
 		_tridentlib.Sockets[name]:close()
 		_tridentlib.Sockets[name] = nil
@@ -102,9 +105,9 @@ end
 tridentlib("DefineFunction", "SOCKET::RemoveSocket", RemoveSocket)
 
 local function SocketSend(name, type, data)
-	if type == "http" then
+	/*if type == "http" then
 		table.insert(_tridentlib.Sockets[name].Data, data)
-	end
+	end*/
 	if type == "gwsockets" then
 		_tridentlib.Sockets[args[1]]:close()
 		_tridentlib.Sockets[args[1]] = nil
