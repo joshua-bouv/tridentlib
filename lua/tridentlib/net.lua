@@ -1,5 +1,5 @@
 --[[tridentlib
-  "name": "Test Code",
+  "name": "Net Module",
   "state": "Shared"
 --tridentlib]]
 
