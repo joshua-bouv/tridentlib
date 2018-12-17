@@ -170,7 +170,7 @@ function _tridentlib.FunctionLoader.Run(func, self, ...)
 		end
 	end
 
-	hook.Add("PlayerInitialSpawn","TLIB_LoadOrders",function(ply)
+	hook.Add("PlayerInitialSpawn","tridentlib_load_orders",function(ply)
 		net.Start("tridentlib_load_orders")
 		net.WriteTable(_tridentlib.FileLoader.Data)
 		net.Send(ply)
