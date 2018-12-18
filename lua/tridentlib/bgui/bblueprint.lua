@@ -13,8 +13,8 @@ function Panel:Init()
 end
 
 function Panel:InitializeSquare(pnl, x, y)
-	xpos = math.floor(x/self.size)
-	ypos = math.floor(y/self.size)
+	local xpos = math.floor(x/self.size)
+	local ypos = math.floor(y/self.size)
 
 	pnl.CurrentPos = {["x"] = xpos, ["y"] = ypos}
 
@@ -22,8 +22,8 @@ function Panel:InitializeSquare(pnl, x, y)
 end
 
 function Panel:UpdateSquare(pnl, x, y)
-	xpos = math.floor(x/self.size)
-	ypos = math.floor(y/self.size)
+	local xpos = math.floor(x/self.size)
+	local ypos = math.floor(y/self.size)
 
 	pnl.CurrentPos = {["x"] = xpos+self.backgroundMovementX, ["y"] = ypos+self.backgroundMovementY}
 
@@ -31,8 +31,8 @@ function Panel:UpdateSquare(pnl, x, y)
 end
 
 function Panel:CalculatePosition(pnl, x, y)
-	self.backgroundMovementX = -math.floor(self.mousex/self.size)
-	self.backgroundMovementY = -math.floor(self.mousey/self.size)
+	self.backgroundMovementX = -self.mousex/self.size
+	self.backgroundMovementY = -self.mousey/self.size
 
 	return (x-self.backgroundMovementX)*self.size, (y-self.backgroundMovementY)*self.size
 end
@@ -41,9 +41,6 @@ function Panel:Zoom(panels, change)
 	self.size = change
 
 	for _, v in pairs(panels) do
-		print("x tlib "..v.CurrentPos["x"])
-		print("y tlib "..v.CurrentPos["y"])
-
 		v:SetPos(self:CalculatePosition(v, v.CurrentPos["x"], v.CurrentPos["y"]))
 		v:ChangeSize(self.size)
 	end

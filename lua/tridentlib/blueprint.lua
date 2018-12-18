@@ -70,45 +70,33 @@ local function ScrollPlane(self)
 	self.mousex = 0
 	self.mousey = 0
 
-	if !self.GetDraggable then
-		self.IsDraggableBool = false
-
-		function self:GetDraggable()
-			return self.IsDraggableBool
-		end
-
-		function self:SetDraggable(bool)
-			self.IsDraggableBool = bool
-		end
-
-		function self:OnMouseReleased()
-			self.Dragging = nil
-			self:MouseCapture(false)
-		end
+	function self:OnMouseReleased()
+		self.Dragging = false
+		self:MouseCapture(false)
 	end
 
 	self.OnMousePressed = function()
-		if (self:GetDraggable()) then
-			self.Dragging = {gui.MouseX(), gui.MouseY()}
-			self.DragPos = {}
+		self.Dragging = {gui.MouseX(), gui.MouseY()}
+		self.DragPos = {}
 
-			for _, v in pairs(self:GetChildren()) do
-				local w, h = v:GetPos()
-				self.DragPos[v] = {w, h}
-			end
-
-			self:MouseCapture(true)
-
-			return
+		for _, v in pairs(self:GetChildren()) do
+			local w, h = v:GetPos()
+			self.DragPos[v] = {w, h}
 		end
+
+		self:MouseCapture(true)
+
+		return
 	end
 	self.Think = function()
 		local mousex = math.Clamp(gui.MouseX(), 1, ScrW() - 1)
 		local mousey = math.Clamp(gui.MouseY(), 1, ScrH() - 1)
 
 		if (self.Dragging) then
-			local x = mousex - self.Dragging[1]
-			local y = mousey - self.Dragging[2]
+			local xTemp = mousex - self.Dragging[1]
+			local x = math.floor(xTemp/self.size)*self.size
+			local yTemp = mousey - self.Dragging[2]
+			local y = math.floor(yTemp/self.size)*self.size
 
 			function self:MoveHorizontal()
 				for k, v in pairs(self.DragPos) do
@@ -146,12 +134,7 @@ local function ScrollPlane(self)
 			self.mouseyOld = self.mousey
 		end
 
-		if (self:GetDraggable()) then
-			self:SetCursor("sizeall")
-			return
-		end
-
-		self:SetCursor("arrow")
+		self:SetCursor("sizeall")
 	end
 
 end
