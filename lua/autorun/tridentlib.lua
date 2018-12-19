@@ -93,7 +93,8 @@ function _tridentlib.LoadAddonInt(data, name)
 
 		--[ START LOAD ORDERS ] 
 		net.Start("tridentlib_load_orders")
-		net.WriteTable({ _tridentlib.FileLoader.Data, _tridentlib.FileLoader.Config })
+		local dat = {} dat[data["folder"]] = _tridentlib.FileLoader.Data[data["folder"]]
+		net.WriteTable({ dat, _tridentlib.FileLoader.Config })
 		net.Broadcast(ply)
 	end
 end
@@ -176,6 +177,7 @@ function _tridentlib.LoadAddon(data)
 	local nme = data["folder"] or data["name"]
 	_tridentlib.LoadAddonInt(data, nme)
 	_tridentlib.ConsolePrint(data, " > Loaded Addon")
+	_tridentlib.ConsolePrint(data, " ")
 end
 
 --[ LOAD TRIDENTLIB ] 
