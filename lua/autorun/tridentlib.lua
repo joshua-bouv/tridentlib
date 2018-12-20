@@ -192,15 +192,15 @@ end
 
 --[ SEND FILES ON CONNECT ] 
 hook.Add("PlayerInitialSpawn","tridentlib_load_orders",function(ply)
-	local dat = {} dat["tridentlib"] = _tridentlib.FileLoader.Data["tridentlib"]
-	local dat2 = _tridentlib.FileLoader.Data["tridentlib"] dat2["tridentlib"] = nil
+	local datZ = {} datZ["tridentlib"] = _tridentlib.FileLoader.Data["tridentlib"]
+	local datX = _tridentlib.FileLoader.Data["tridentlib"] datX["tridentlib"] = nil
 	
 	net.Start("tridentlib_load_orders")
-	net.WriteTable({ dat, _tridentlib.FileLoader.Config })
+	net.WriteTable({ datZ, _tridentlib.FileLoader.Config })
 	net.Send(ply)
 
 	net.Start("tridentlib_load_orders")
-	net.WriteTable({ dat2, _tridentlib.FileLoader.Config })
+	net.WriteTable({ datX, _tridentlib.FileLoader.Config })
 	net.Send(ply)
 end)
 
@@ -210,21 +210,23 @@ else
 		local datax = net.ReadTable()
 		local data = datax[1] local conf = datax[2]
 		for k,v in pairs(data) do
-			local data = { func = conf[k]["func"] }
-			_tridentlib.LoadAddonInt(data, k)
-			table.sort( v, function( a, b ) return a["priority"] < b["priority"] end )
-			for k,v in pairs(v) do
-				v["prefix"] = string.lower(v["prefix"])
-				if(v["prefix"] == "cl" or v["prefix"] == "client" or v["prefix"] == "sh" or v["prefix"] == "shared") then 
-					include(v["full"]) 
-					if v["data"] and v["data"]["name"] then
-						_tridentlib.ConsolePrint(data, "  > Loaded: ".. v["data"]["name"])
-					else
-						_tridentlib.ConsolePrint(data, "  > Loaded: ".. v["raw"])
-					end 
+			if conf[k]["func"] then
+				local data = { func = conf[k]["func"] }
+				_tridentlib.LoadAddonInt(data, k)
+				table.sort( v, function( a, b ) return a["priority"] < b["priority"] end )
+				for k,v in pairs(v) do
+					v["prefix"] = string.lower(v["prefix"])
+					if(v["prefix"] == "cl" or v["prefix"] == "client" or v["prefix"] == "sh" or v["prefix"] == "shared") then 
+						include(v["full"]) 
+						if v["data"] and v["data"]["name"] then
+							_tridentlib.ConsolePrint(data, "  > Loaded: ".. v["data"]["name"])
+						else
+							_tridentlib.ConsolePrint(data, "  > Loaded: ".. v["raw"])
+						end 
+					end
 				end
+				_tridentlib.ConsolePrint(data, " > Loaded Addon")
 			end
-			_tridentlib.ConsolePrint(data, " > Loaded Addon")
 		end
 
 	end)
