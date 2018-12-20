@@ -210,7 +210,7 @@ else
 		local datax = net.ReadTable()
 		local data = datax[1] local conf = datax[2]
 		for k,v in pairs(data) do
-			if conf[k]["func"] then
+			if conf[k] then
 				local data = { func = conf[k]["func"] }
 				_tridentlib.LoadAddonInt(data, k)
 				table.sort( v, function( a, b ) return a["priority"] < b["priority"] end )
