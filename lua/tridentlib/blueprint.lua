@@ -70,11 +70,10 @@ local function ScrollPlane(self)
 	self.mousex = 0
 	self.mousey = 0
 
-	function self:OnMouseReleased()
+	self.OnMouseReleased = function()
 		self.Dragging = false
 		self:MouseCapture(false)
 	end
-
 	self.OnMousePressed = function()
 		self.Dragging = {gui.MouseX(), gui.MouseY()}
 		self.DragPos = {}
