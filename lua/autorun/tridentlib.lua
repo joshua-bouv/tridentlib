@@ -220,7 +220,7 @@ else
 						include(v["full"]) 
 						if v["data"] and v["data"]["name"] then
 							_tridentlib.ConsolePrint(data, "  > Loaded: ".. v["data"]["name"])
-						else
+						else 
 							_tridentlib.ConsolePrint(data, "  > Loaded: ".. v["raw"])
 						end 
 					end
@@ -230,4 +230,4 @@ else
 		end
 
 	end)
-end                                                                         
+end                                                                               
