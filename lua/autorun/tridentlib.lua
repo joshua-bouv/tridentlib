@@ -193,13 +193,14 @@ end
 --[ SEND FILES ON CONNECT ] 
 hook.Add("PlayerInitialSpawn","tridentlib_load_orders",function(ply)
 	local dat = {} dat["tridentlib"] = _tridentlib.FileLoader.Data["tridentlib"]
+	local dat2 = _tridentlib.FileLoader.Data["tridentlib"] dat2["tridentlib"] = nil
 	
 	net.Start("tridentlib_load_orders")
 	net.WriteTable({ dat, _tridentlib.FileLoader.Config })
 	net.Send(ply)
 
 	net.Start("tridentlib_load_orders")
-	net.WriteTable({ _tridentlib.FileLoader.Data, _tridentlib.FileLoader.Config })
+	net.WriteTable({ dat2, _tridentlib.FileLoader.Config })
 	net.Send(ply)
 end)
 
