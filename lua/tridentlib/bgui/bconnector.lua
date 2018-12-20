@@ -11,9 +11,12 @@ function Panel:Init()
 end
 
 function Panel:OnMousePressed()
+	self:MouseCapture(true)
 	print("hi")
+end
 
 function Panel:OnMouseReleased()
+	self:MouseCapture(false)
 	print("bye")
 end
 
