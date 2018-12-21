@@ -197,7 +197,7 @@ hook.Add("PlayerInitialSpawn","tridentlib_load_orders",function(ply)
 	
 	net.Start("tridentlib_load_orders")
 	net.WriteTable({ datZ, _tridentlib.FileLoader.Config })
-	net.Send(ply)
+	net.Send(ply) 
 
 	net.Start("tridentlib_load_orders")
 	net.WriteTable({ datX, _tridentlib.FileLoader.Config })
@@ -230,4 +230,4 @@ else
 		end
 
 	end)
-end                                                                               
+end                                                                                                                                                       

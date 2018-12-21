@@ -47,6 +47,7 @@ function Panel:Zoom(panels, change)
 end
 
 function Panel:MoveSquare(pnl)
+	pnl:SquareMoved()
 	pnl:SetPos(self:UpdateSquare(pnl, gui.MouseX()-800, gui.MouseY()-400))
 end
 

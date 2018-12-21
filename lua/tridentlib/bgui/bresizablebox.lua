@@ -32,4 +32,8 @@ function Panel:SetFontSize(size)
 	self.FontScale = size
 end
 
+function Panel:SquareMoved()
+	-- for overide
+end
+
 vgui.Register("BResizableBox", Panel, "DButton")
