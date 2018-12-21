@@ -11,6 +11,7 @@ function Panel:Init()
 	self.Connected = false
 	self.ConnectedTo = false
 	self.ConnectionID = false
+	self.EndpointID = false
 end
 
 function Panel:OnMousePressed()
@@ -32,6 +33,7 @@ function Panel:CheckConnected()
 		if self.lineX > x-2 and self.lineX < x and self.lineY > y+30 and self.lineY < y+55 then
 			self.Connected = true
 			self.ConnectedTo = k
+			k:SetEndpointID(self:GetConnectionID)
 			self:OnMouseReleased()
 			self:Connection(self, k)
 		end
@@ -95,6 +97,10 @@ end
 
 function Panel:SetConnectionID(id)
 	self.ConnectionID = id
+end
+
+function Panel:SetEndpointID(id)
+
 end
 
 function Panel:IsConnected()
