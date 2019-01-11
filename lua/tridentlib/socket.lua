@@ -97,8 +97,10 @@ local function RemoveSocket(name, type)
 		timer.Remove("NLIB::HSocket-"..name)
 	end*/
 	if type == "gwsockets" then
-		_tridentlib.Sockets[name]:close()
-		_tridentlib.Sockets[name] = nil
+		if _tridentlib.Sockets[name] then
+			_tridentlib.Sockets[name]:close()
+			_tridentlib.Sockets[name] = nil
+		end
 	end
 end
 
