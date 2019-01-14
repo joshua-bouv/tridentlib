@@ -51,4 +51,8 @@ function Panel:MoveSquare(pnl)
 	pnl:SetPos(self:UpdateSquare(pnl, gui.MouseX()-800, gui.MouseY()-400))
 end
 
+function Panel:BackgroundMoved()
+	-- for overide
+end
+
 vgui.Register("BBlueprint", Panel, "DPanel")

@@ -128,6 +128,8 @@ local function ScrollPlane(self)
 					self:MoveVertial()
 				end
 			end
+
+			self:BackgroundMoved()
 		else
 			self.mousexOld = self.mousex
 			self.mouseyOld = self.mousey

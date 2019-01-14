@@ -11,7 +11,6 @@ function Panel:Init()
 	self.Connected = false
 	self.ConnectedTo = false
 	self.ConnectionID = false
-	self.EndpointID = false
 end
 
 function Panel:OnMousePressed()
@@ -24,20 +23,6 @@ function Panel:OnMouseReleased()
 	self:MouseCapture(false)
 	self.Pressed = false
 	self:MouseReleased()
-end
-
-function Panel:CheckConnected()
-	for k, v in pairs(self.endpoints) do
-		x, y = k:GetParent():GetParent():GetPos()
-
-		if self.lineX > x-2 and self.lineX < x and self.lineY > y+30 and self.lineY < y+55 then
-			self.Connected = true
-			self.ConnectedTo = k
-			k:SetEndpointID(self:GetConnectionID)
-			self:OnMouseReleased()
-			self:Connection(self, k)
-		end
-	end
 end
 
 function Panel:GenerateLine()
@@ -55,9 +40,28 @@ function Panel:GenerateLine()
 	return {["startX"] = self.lineW, ["startY"] = self.lineH, ["endX"] = self.lineX, ["endY"] = self.lineY}
 end
 
-function Panel:UpdateLineStart()
-	if not self.Connected then return end
+function Panel:IsEndpoint()
+	return false
+end
 
+function Panel:CheckConnected()
+	for _, item in pairs(self.endpoints) do
+		for _, v in pairs(item) do -- needs optimization
+			if v:IsEndpoint() then -- needs optimization
+				x, y = v:GetParent():GetParent():GetPos()
+
+				if self.lineX > x-2 and self.lineX < x and self.lineY > y+30 and self.lineY < y+55 then
+					self.Connected = true
+					self.ConnectedTo = v
+					self:OnMouseReleased()
+					self:Connection(self, v)
+				end
+			end
+		end
+	end
+end
+
+function Panel:UpdateLine(currentLine)
 	local x, y = self:GetParent():GetParent():GetPos()
 	local x2, _, w2, _ = self:GetParent():GetBounds()
 	local _, _, _, h2 = self:GetBounds()
@@ -65,18 +69,7 @@ function Panel:UpdateLineStart()
 	self.lineW = x+(x2+w2)
 	self.lineH = y+(30+(h2/2))
 
-	return {["startX"] = self.lineW, ["startY"] = self.lineH, ["endX"] = self.lineX, ["endY"] = self.lineY}
-end
-
-function Panel:UpdateLineEnd()
-	if not self.Connected then return end
-
-	x, y = self.ConnectedTo:GetParent():GetParent():GetPos()
-
-	self.lineX = gui.MouseX()-600
-	self.lineY = gui.MouseY()-300
-
-	return {["startX"] = self.lineW, ["startY"] = self.lineH, ["endX"] = self.lineX, ["endY"] = self.lineY}
+	return {["startX"] = self.lineW, ["startY"] = self.lineH, ["endX"] = currentLine["endX"], ["endY"] = currentLine["endY"]}
 end
 
 function Panel:MousePressed()
@@ -97,10 +90,6 @@ end
 
 function Panel:SetConnectionID(id)
 	self.ConnectionID = id
-end
-
-function Panel:SetEndpointID(id)
-
 end
 
 function Panel:IsConnected()
