@@ -59,6 +59,13 @@ surface.CreateFont( "eventsTextMidFont", {
 	antialias = true,
 } )
 
+surface.CreateFont( "eventsTestingFont", {
+	font = "Roboto Lt",
+	size = 18,
+	weight = 250,
+	antialias = true,
+} )
+
 surface.CreateFont( "eventsTickFont", {
 	font = "Roboto Lt",
 	size = 18,

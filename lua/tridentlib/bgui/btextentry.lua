@@ -15,17 +15,18 @@ function Panel:Init()
 	self.MenuTitle = ""
 	self.VisibleMenuTitle = ""
 	self.VisibleMenuMainTitle = ""
+	self.spacing = ""
 end
 
 function Panel:Paint(w, h)
 	draw.RoundedBox(0, 0, 0, w, h, self.Col)
 
 	if self.BottomHighlight then
-		draw.RoundedBox(0, 0, 49, w, 1, fade2)
+		draw.RoundedBox(0, 0, h-1, w, 1, fade2)
 	end
 
 	draw.SimpleText(self.VisibleMenuTitle, "eventsTextFontSmall", 3, 1, blueText, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-	draw.SimpleText(self.VisibleMenuMainTitle, self:GetFont(), 3, h/2, text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)	
+	draw.SimpleText(self.spacing..self.VisibleMenuMainTitle, self:GetFont(), 3, h/2, text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)	
 
 	if self:IsHovered() then
 		self.Col = self.AltCol
@@ -61,6 +62,10 @@ end
 function Panel:SetTitle(data)
 	self.MenuTitle = data
 	self.VisibleMenuMainTitle = data
+end
+
+function Panel:SetSpacing(str)
+	self.spacing = str
 end
 
 function Panel:SetColors(primary, alternative)
