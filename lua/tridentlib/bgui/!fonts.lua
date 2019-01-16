@@ -24,6 +24,13 @@ surface.CreateFont( "eventsCrossFont", {
 	antialias = true,
 } )
 
+surface.CreateFont( "eventsCrossFontBold", {
+	font = "Roboto Medium",
+	size = 25,
+	weight = 1000,
+	antialias = true,
+} )
+
 surface.CreateFont( "eventsTitleFontBold", {
 	font = "Roboto Medium",
 	size = 25,
