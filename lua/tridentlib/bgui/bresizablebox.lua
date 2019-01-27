@@ -9,17 +9,9 @@ local Panel = {}
 
 function Panel:Init()
 	self.scale = 1
-	self.outerScale = 30
-end
-
-function Panel:ChangeSize(size)
-	self.scale = self.outerScale/size
-	local sizeW = self.scaleW/self.scale
-	local sizeH = self.scaleH/self.scale
-
-	self:SetSize(sizeW, sizeH)
-
-	self.FontScale = math.Round(self.FontSize/self.scale, 0)
+	self.FontSize = 20
+	self.Dragging = false
+	self.PosX, self.PosY, self.CanvasMovementX, self.CanvasMovementY = 0, 0, 0, 0
 end
 
 function Panel:SizeSet(w, h)
@@ -27,9 +19,47 @@ function Panel:SizeSet(w, h)
 	self:SetSize(w, h)
 end
 
+function Panel:GetInternalPos()
+	return self.PosX, self.PosY
+end
+
+function Panel:SetInternalPos(x, y)
+	self.PosX, self.PosY = x, y
+end
+
+function Panel:ChangeSize(size)
+	self.scale = size
+	self:SetSize(self.scaleW*self.scale, self.scaleH*self.scale)
+	self.FontScale = math.Round(20*self.scale, 0)
+end
+
+function Panel:Think()
+	if (self.Dragging) then
+		self.CanvasMovementX, self.CanvasMovementY = (self.Dragging[1] - gui.MouseX()), (self.Dragging[2] - gui.MouseY())
+		self.Dragging = {gui.MouseX(), gui.MouseY()}
+
+		local backX, backY = self:GetParent():GetBackgroundMovement()
+		local x, y = self:GetPos()
+		local xNew, yNew = x+-self.CanvasMovementX, y+-self.CanvasMovementY
+
+		self:SetPos(xNew, yNew)
+		self:SetInternalPos(math.abs(backX) + xNew, math.abs(backY) + yNew)
+	end
+end
+
+function Panel:OnMousePressed()
+	self.Dragging = {gui.MouseX(), gui.MouseY()}
+end
+
+function Panel:OnMouseReleased()
+	self.Dragging = false
+end
+
+-------------------------------
+
 function Panel:SetFontSize(size)
 	self.FontSize = size
-	self.FontScale = size
+	self.FontScale = math.Round(20*self.scale, 0)
 end
 
 function Panel:SquareMoved()

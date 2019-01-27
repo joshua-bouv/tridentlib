@@ -143,7 +143,7 @@ function Panel:SetTabs(tbl)
 				item.DoClick = function()
 					self.tabContents:Clear()
 					hook.Run("eventsTabChanged", self:IsMinimized())
-					v["contents"](self.tabContents, self.data)
+					v["contents"](self.tabContents, v["format"](v["data"], self.data))
 
 					self:ArrangeTopBar(v["pos"], boxSize)
 					self:FixTextColours(self.topBarPanel:GetChildren()[1]:GetChildren(), key)
