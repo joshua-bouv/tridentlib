@@ -55,8 +55,6 @@ function Panel:OnMouseReleased()
 	self.Dragging = false
 end
 
--------------------------------
-
 function Panel:SetFontSize(size)
 	self.FontSize = size
 	self.FontScale = math.Round(20*self.scale, 0)

@@ -24,6 +24,8 @@ function Panel:Think()
 			v:SetPos(x + self.BackgroundMovementX, y + self.BackgroundMovementY)
 		end
 	end
+
+	self:SetCursor("sizeall")
 end
 
 function Panel:GetBackgroundMovement()
@@ -34,6 +36,14 @@ function Panel:Zoom(change)
 	self.ZoomAmount = self.ZoomAmount + change
 
 	for _, v in pairs(self:GetChildren()) do
+		local x, y = v:GetInternalPos()
+		local tempX = x*self:GetScale()
+		local tempY = y*self:GetScale()
+
+		print(tempX)
+		print(tempY)
+		
+		v:SetPos(tempX, tempY)
 --		v:SetPos(self:CalculatePosition(v, v.CurrentPos["x"], v.CurrentPos["y"]))
 		v:ChangeSize(self.ZoomAmount)
 	end
