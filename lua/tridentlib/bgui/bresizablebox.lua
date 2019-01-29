@@ -11,7 +11,7 @@ function Panel:Init()
 	self.scale = 1
 	self.FontSize = 20
 	self.Dragging = false
-	self.PosX, self.PosY, self.CanvasMovementX, self.CanvasMovementY = 0, 0, 0, 0
+	self.PosX, self.PosY, self.BackX, self.BackY, self.CanvasMovementX, self.CanvasMovementY = 0, 0, 0, 0, 0, 0
 end
 
 function Panel:SizeSet(w, h)
@@ -20,11 +20,11 @@ function Panel:SizeSet(w, h)
 end
 
 function Panel:GetInternalPos()
-	return self.PosX, self.PosY
+	return self.PosX, self.PosY, self.BackX, self.BackY
 end
 
-function Panel:SetInternalPos(x, y)
-	self.PosX, self.PosY = x, y
+function Panel:SetInternalPos(x, y, backX, backY)
+	self.PosX, self.PosY, self.BackX, self.BackY = x, y, backX, backY
 end
 
 function Panel:ChangeSize(size)
@@ -43,11 +43,7 @@ function Panel:Think()
 		local xNew, yNew = x+-self.CanvasMovementX, y+-self.CanvasMovementY
 
 		self:SetPos(xNew, yNew)
-
-		print(backX)
-		print(xNew)
-
-		self:SetInternalPos(xNew*self.scale + -backX*self.scale, yNew*self.scale + -backY*self.scale) -- FIX ME
+		self:SetInternalPos(xNew/self.scale, yNew/self.scale, backX/self.scale, backY/self.scale)
 	end
 end
 
