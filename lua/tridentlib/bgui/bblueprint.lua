@@ -20,8 +20,10 @@ function Panel:Think()
 		self.Dragging = {gui.MouseX(), gui.MouseY()}
 
 		for _, v in pairs(self:GetChildren()) do
-			x, y = v:GetInternalPos()
-			v:SetPos(x + self.BackgroundMovementX, y + self.BackgroundMovementY)
+			local b, d = v:GetInternalPos()
+			local a, c = self:GetBackgroundMovement()
+
+			v:SetPos(b - -a, d - -c)
 		end
 	end
 
@@ -37,14 +39,10 @@ function Panel:Zoom(change)
 
 	for _, v in pairs(self:GetChildren()) do
 		local x, y = v:GetInternalPos()
-		local tempX = x*self:GetScale()
-		local tempY = y*self:GetScale()
+		local tempX = x*self.ZoomAmount
+		local tempY = y*self.ZoomAmount
 
-		print(tempX)
-		print(tempY)
-		
-		v:SetPos(tempX, tempY)
---		v:SetPos(self:CalculatePosition(v, v.CurrentPos["x"], v.CurrentPos["y"]))
+		v:SetPos(tempX + self.BackgroundMovementX, tempY + self.BackgroundMovementY)
 		v:ChangeSize(self.ZoomAmount)
 	end
 end
