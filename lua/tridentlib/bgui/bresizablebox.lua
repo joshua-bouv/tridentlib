@@ -31,6 +31,8 @@ function Panel:ChangeSize(size)
 	self.scale = size
 	self:SetSize(self.scaleW*self.scale, self.scaleH*self.scale)
 	self.FontScale = math.Round(20*self.scale, 0)
+
+	self:PanelChangedSize()
 end
 
 function Panel:Think()
@@ -61,6 +63,10 @@ function Panel:SetFontSize(size)
 end
 
 function Panel:SquareMoved()
+	-- for overide
+end
+
+function Panel:PanelChangedSize()
 	-- for overide
 end
 
