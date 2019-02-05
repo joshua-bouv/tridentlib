@@ -26,14 +26,19 @@ function Panel:OnMouseReleased()
 end
 
 function Panel:GenerateLine()
-	local x, y = self:GetParent():GetParent():GetPos()
-	local x2, _, w2, _ = self:GetParent():GetBounds()
-	local _, _, _, h2 = self:GetBounds()
+	local testx1, testy1 = self:GetParent():GetParent():GetParent():GetPos()
+	local testx2, testy2 = self:GetParent():GetParent():GetPos()
+	local testx3, testy3 = self:GetParent():GetPos()
+	local testx4, testy4 = self:GetPos()
+	local testw, testh = self:GetSize()
 
-	self.lineW = x+(x2+w2)
-	self.lineH = y+(30+(h2/2))
-	self.lineX = gui.MouseX()-600
-	self.lineY = gui.MouseY()-300
+	self.lineW = testx1+testx2+testx3+testx4+testw
+	self.lineH = testy1+testy2+testy3+testy4+(testh/2)
+
+	print(self.lineW)
+	print(self.lineH)
+
+	self.lineX, self.lineY = self:GetParent():GetParent():GetParent():GetParent():ScreenToLocal(gui.MouseX(), gui.MouseY())
 
 	self:CheckConnected()
 
