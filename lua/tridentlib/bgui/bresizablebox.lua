@@ -46,6 +46,8 @@ function Panel:Think()
 
 		self:SetPos(xNew, yNew)
 		self:SetInternalPos(xNew/self.scale, yNew/self.scale, backX/self.scale, backY/self.scale)
+
+		self:SquareMoved()
 	end
 end
 

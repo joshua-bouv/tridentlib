@@ -25,6 +25,18 @@ function Panel:OnMouseReleased()
 	self:MouseReleased()
 end
 
+function Panel:GetPosition()
+	local testx1, testy1 = self:GetParent():GetParent():GetParent():GetPos()
+	local testx2, testy2 = self:GetParent():GetParent():GetPos()
+	local testx3, testy3 = self:GetParent():GetPos()
+	local testx4, testy4 = self:GetPos()
+	local testw, testh = self:GetSize()
+
+	local w, h = testx1+testx2+testx3+testx4+testw, testy1+testy2+testy3+testy4+(testh/2)
+
+	return w, h
+end
+
 function Panel:GenerateLine()
 	local testx1, testy1 = self:GetParent():GetParent():GetParent():GetPos()
 	local testx2, testy2 = self:GetParent():GetParent():GetPos()
@@ -32,12 +44,7 @@ function Panel:GenerateLine()
 	local testx4, testy4 = self:GetPos()
 	local testw, testh = self:GetSize()
 
-	self.lineW = testx1+testx2+testx3+testx4+testw
-	self.lineH = testy1+testy2+testy3+testy4+(testh/2)
-
-	print(self.lineW)
-	print(self.lineH)
-
+	self.lineW, self.lineH = self:GetPosition()
 	self.lineX, self.lineY = self:GetParent():GetParent():GetParent():GetParent():ScreenToLocal(gui.MouseX(), gui.MouseY())
 
 	self:CheckConnected()
@@ -51,15 +58,24 @@ end
 
 function Panel:CheckConnected()
 	for _, item in pairs(self.endpoints) do
-		for _, v in pairs(item) do -- needs optimization
-			if v:IsEndpoint() then -- needs optimization
-				x, y = v:GetParent():GetParent():GetPos()
+		for _, v in pairs(item) do
+			if v:IsEndpoint() then
+				local testx1, testy1 = v:GetParent():GetParent():GetParent():GetPos()
+				local testx2, testy2 = v:GetParent():GetParent():GetPos()
+				local testx3, testy3 = v:GetParent():GetPos()
+				local testx4, testy4 = v:GetPos()
+				local testw, testh = v:GetSize()
 
-				if self.lineX > x-2 and self.lineX < x and self.lineY > y+30 and self.lineY < y+55 then
+				local x, y = testx1+testx2+testx3+testx4, testy1+testy2+testy3+testy4
+
+				print("X: "..self.lineX.. " "..x)
+				print("Y: "..self.lineY.. " "..y)
+
+				if self.lineX > x-2 and self.lineX < x and self.lineY > y+testw and self.lineY < y+testh then
 					self.Connected = true
 					self.ConnectedTo = v
 					self:OnMouseReleased()
-					self:Connection(self, v)
+					self:Connection(v)
 				end
 			end
 		end
@@ -85,12 +101,12 @@ function Panel:MouseReleased(self)
 	-- for overwide
 end
 
-function Panel:GetEndpoint()
-	return self.ConnectedTo
-end
-
 function Panel:GetConnectionID()
 	return self.ConnectionID
+end
+
+function Panel:GetConnection()
+	return self.ConnectedTo
 end
 
 function Panel:SetConnectionID(id)
@@ -105,7 +121,7 @@ function Panel:IsDragging()
 	return self.Pressed
 end
 
-function Panel:Connection(self, connectedTo)
+function Panel:Connection(v)
 	-- for overwride
 end
 
