@@ -9,19 +9,23 @@ local Panel = {}
 function Panel:Init()
 	self.Dragging = false
 	self.ZoomAmount = 1 -- E
+	self.ZoomAmountRev = 1
 	self.ScaledSize = 30
-	self.BackgroundMovementX = 0 -- A
-	self.BackgroundMovementY = 0 -- C
+	self.ObjectMovementX = -180
+	self.ObjectMovementY = -180
+	self.BackgroundMovementX = -180
+	self.BackgroundMovementY = -180
 end
 
 function Panel:Think()
 	if (self.Dragging) then
+		self.ObjectMovementX, self.ObjectMovementY = self.ObjectMovementX - (self.Dragging[1] - gui.MouseX()), self.ObjectMovementY - (self.Dragging[2] - gui.MouseY())
 		self.BackgroundMovementX, self.BackgroundMovementY = self.BackgroundMovementX - (self.Dragging[1] - gui.MouseX()), self.BackgroundMovementY - (self.Dragging[2] - gui.MouseY())
 		self.Dragging = {gui.MouseX(), gui.MouseY()}
 
 		for _, v in pairs(self:GetChildren()) do
 			local x, y, backX, backY = v:GetInternalPos()
-			local a, c = self:GetBackgroundMovement()
+			local a, c = self:GetObjectMovement()
 
 			v:SetPos((x + -backX)*self.ZoomAmount - -a, (y + -backY)*self.ZoomAmount - -c)
 		end
@@ -30,17 +34,18 @@ function Panel:Think()
 	self:SetCursor("sizeall")
 end
 
-function Panel:GetBackgroundMovement()
-	return self.BackgroundMovementX, self.BackgroundMovementY
+function Panel:GetObjectMovement()
+	return self.ObjectMovementX, self.ObjectMovementY
 end
 
 function Panel:Zoom(change)
 	self.ZoomAmount = self.ZoomAmount + change
+	self.ZoomAmountRev = self.ZoomAmountRev - change
 
 	for _, v in pairs(self:GetChildren()) do
 		local x, y, backX, backY = v:GetInternalPos()
-		local tempX = ((x + -backX)+self.BackgroundMovementX/self.ZoomAmount) * self.ZoomAmount -- not perfect but close enough for now
-		local tempY = ((y + -backY)+self.BackgroundMovementY/self.ZoomAmount) * self.ZoomAmount -- not perfect but close enough for now
+		local tempX = ((x + -backX)+self.ObjectMovementX/self.ZoomAmount) * self.ZoomAmount -- not perfect but close enough for now
+		local tempY = ((y + -backY)+self.ObjectMovementY/self.ZoomAmount) * self.ZoomAmount -- not perfect but close enough for now
 
 		v:SetPos(tempX , tempY)
 		v:ChangeSize(self.ZoomAmount)
@@ -49,6 +54,10 @@ end
 
 function Panel:GetScale()
 	return math.Round(self.ScaledSize*self.ZoomAmount, 0)
+end
+
+function Panel:GetReverseScale()
+	return math.Round(self.ScaledSize*self.ZoomAmountRev, 0)
 end
 
 function Panel:OnMouseWheeled(direction)
@@ -84,10 +93,10 @@ function Panel:InitializeSquare(pnl, x, y)
 end
 
 function Panel:CalculatePosition(pnl, x, y)
-	self.BackgroundMovementX = -self.mousex/self.size
-	self.BackgroundMovementY = -self.mousey/self.size
+	self.ObjectMovementX = -self.mousex/self.size
+	self.ObjectMovementY = -self.mousey/self.size
 
-	return (x-self.BackgroundMovementX)*self.size, (y-self.BackgroundMovementY)*self.size
+	return (x-self.ObjectMovementX)*self.size, (y-self.ObjectMovementY)*self.size
 end
 
 function Panel:BackgroundMoved()
@@ -98,7 +107,7 @@ function Panel:UpdateSquare(pnl, x, y)
 	local xpos = math.floor(x/self.size)
 	local ypos = math.floor(y/self.size)
 
-	pnl.CurrentPos = {["x"] = xpos+self.BackgroundMovementX, ["y"] = ypos+self.BackgroundMovementY}
+	pnl.CurrentPos = {["x"] = xpos+self.ObjectMovementX, ["y"] = ypos+self.ObjectMovementY}
 
 	return xpos*self.size, ypos*self.size
 end
