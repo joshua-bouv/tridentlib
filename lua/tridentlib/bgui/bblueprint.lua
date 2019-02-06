@@ -28,6 +28,7 @@ function Panel:Think()
 			local a, c = self:GetObjectMovement()
 
 			v:SetPos((x + -backX)*self.ZoomAmount - -a, (y + -backY)*self.ZoomAmount - -c)
+			v:SquareMoved()
 		end
 	end
 
@@ -49,6 +50,7 @@ function Panel:Zoom(change)
 
 		v:SetPos(tempX , tempY)
 		v:ChangeSize(self.ZoomAmount)
+		v:SquareMoved()
 	end
 end
 
@@ -82,6 +84,7 @@ function Panel:OnMouseReleased()
 	return
 end
 
+<<<<<<< HEAD
 /*
 function Panel:InitializeSquare(pnl, x, y)
 	local xpos = math.floor(x/self.size)
@@ -113,4 +116,6 @@ function Panel:UpdateSquare(pnl, x, y)
 end
 */
 
+=======
+>>>>>>> master
 vgui.Register("BBlueprint", Panel, "DPanel")
