@@ -8,7 +8,7 @@ local Panel = {}
 
 function Panel:Init()
 	self.Dragging = false
-	self.ZoomAmount = 1 -- E
+	self.ZoomAmount = 1
 	self.ZoomAmountRev = 1
 	self.ScaledSize = 30
 	self.ObjectMovementX = -180
@@ -43,10 +43,14 @@ function Panel:Zoom(change)
 	self.ZoomAmount = self.ZoomAmount + change
 	self.ZoomAmountRev = self.ZoomAmountRev - change
 
+	print(self.ObjectMovementX)
+	print(self.ObjectMovementY)
+
 	for _, v in pairs(self:GetChildren()) do
 		local x, y, backX, backY = v:GetInternalPos()
-		local tempX = ((x + -backX)+self.ObjectMovementX/self.ZoomAmount) * self.ZoomAmount -- not perfect but close enough for now
-		local tempY = ((y + -backY)+self.ObjectMovementY/self.ZoomAmount) * self.ZoomAmount -- not perfect but close enough for now
+		print("YEET "..backX-self.ObjectMovementX)
+		local tempX = ((x + backX)+self.ObjectMovementX/self.ZoomAmount) * self.ZoomAmount -- not perfect but close enough for now
+		local tempY = ((y + backY)+self.ObjectMovementY/self.ZoomAmount) * self.ZoomAmount -- not perfect but close enough for now
 
 		v:SetPos(tempX , tempY)
 		v:ChangeSize(self.ZoomAmount)
