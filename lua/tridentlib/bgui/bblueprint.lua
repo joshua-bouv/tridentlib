@@ -43,6 +43,8 @@ function Panel:Zoom(change)
 	self.ZoomAmount = self.ZoomAmount + change
 	self.ZoomAmountRev = self.ZoomAmountRev - change
 
+	print(self.ObjectMovementX)
+	print(self.BackgroundMovementX)
 	for _, v in pairs(self:GetChildren()) do
 		local x, y, backX, backY = v:GetInternalPos()
 		local tempX = ((x + -backX)+self.ObjectMovementX/self.ZoomAmount) * self.ZoomAmount -- not perfect but close enough for now
