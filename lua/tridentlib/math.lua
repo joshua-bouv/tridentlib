@@ -47,18 +47,19 @@ end
 
 tridentlib("DefineFunction", "MATH::QuickSplit|2Point", SquareLine2Points )
 
-
 /*
 hook.Add( "HUDPaint", "BSplinePointExample3", function()
 
-	local startx = 2
-	local starty = 76
+	local startx = 10
+	local starty = 10
 
 	local endx = gui.MouseX()
 	local endy = gui.MouseY()
 
-	local pointcalc = endx/2+startx/2
+	local pointcalc = tridentlib("MATH::QuickSplit|2Point", endx)
 
+	surface.SetDrawColor(255,255,0)
+	surface.DrawLine(startx,starty,endx,endy)
 
 	// hypo top
 	surface.SetDrawColor(0,100,100)
@@ -70,8 +71,10 @@ hook.Add( "HUDPaint", "BSplinePointExample3", function()
 
 	// hypo bottom
 	surface.SetDrawColor(255,100,100)
-	surface.DrawLine(endx,endy,pointcalc,endy)
+	surface.DrawLine(pointcalc*2,endy,pointcalc,endy)
 end)
+
+
 
 hook.Add( "HUDPaint", "BSplinePointExample", function()
 	local points = { Vector( 100, 100, 0 ), Vector( 200, 200, 0 ), Vector( 300, 100, 0 ), Vector( gui.MouseX(), gui.MouseY(), 0 ) }
