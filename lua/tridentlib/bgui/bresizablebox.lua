@@ -40,7 +40,7 @@ function Panel:Think()
 		self.CanvasMovementX, self.CanvasMovementY = (self.Dragging[1] - gui.MouseX()), (self.Dragging[2] - gui.MouseY())
 		self.Dragging = {gui.MouseX(), gui.MouseY()}
 
-		local backX, backY = self:GetParent():GetBackgroundMovement()
+		local backX, backY = self:GetParent():GetObjectMovement()
 		local x, y = self:GetPos()
 		local xNew, yNew = x+-self.CanvasMovementX, y+-self.CanvasMovementY
 
