@@ -86,38 +86,4 @@ function Panel:OnMouseReleased()
 	return
 end
 
-<<<<<<< HEAD
-/*
-function Panel:InitializeSquare(pnl, x, y)
-	local xpos = math.floor(x/self.size)
-	local ypos = math.floor(y/self.size)
-
-	pnl.CurrentPos = {["x"] = xpos, ["y"] = ypos}
-
-	return xpos*self.size, ypos*self.size
-end
-
-function Panel:CalculatePosition(pnl, x, y)
-	self.ObjectMovementX = -self.mousex/self.size
-	self.ObjectMovementY = -self.mousey/self.size
-
-	return (x-self.ObjectMovementX)*self.size, (y-self.ObjectMovementY)*self.size
-end
-
-function Panel:BackgroundMoved()
-	-- for overide
-end
-
-function Panel:UpdateSquare(pnl, x, y)
-	local xpos = math.floor(x/self.size)
-	local ypos = math.floor(y/self.size)
-
-	pnl.CurrentPos = {["x"] = xpos+self.ObjectMovementX, ["y"] = ypos+self.ObjectMovementY}
-
-	return xpos*self.size, ypos*self.size
-end
-*/
-
-=======
->>>>>>> master
 vgui.Register("BBlueprint", Panel, "DPanel")
