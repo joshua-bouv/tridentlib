@@ -7,6 +7,8 @@ _tridentlib.metaTables = {}
 _tridentlib.FileLoader = {}
 _tridentlib.FileLoader.Data = {} 
 _tridentlib.FileLoader.Config = {}
+_tridentlib.MetaTables = {}
+_tridentlib.MetaFunctions = {}
 
 _tridentlib.FunctionLoader = _tridentlib.FunctionLoader or {}
 _tridentlib.FunctionLoader.Functions = _tridentlib.FunctionLoader.Functions or {}
