@@ -9,8 +9,8 @@ local Panel = {}
 function Panel:Init()
 	self.Pressed = false
 	self.Connected = false
-	self.ConnectedTo = false
 	self.ConnectionID = false
+	self.Connections = {}
 end
 
 function Panel:OnMousePressed()
@@ -68,14 +68,10 @@ function Panel:CheckConnected()
 
 				local x, y = testx1+testx2+testx3+testx4, testy1+testy2+testy3+testy4
 
-				print("X: "..self.lineX.. " "..x)
-				print("Y: "..self.lineY.. " "..y)
-
 				if self.lineX > x-2 and self.lineX < x and self.lineY > y+testw and self.lineY < y+testh then
-					self.Connected = true
-					self.ConnectedTo = v
+					self:StoreConnection(self.ConnectionID, v)
 					self:OnMouseReleased()
-					self:Connection(v)
+					self:Connection(v, self.ConnectionID)
 				end
 			end
 		end
@@ -98,15 +94,26 @@ function Panel:MousePressed()
 end
 
 function Panel:MouseReleased(self)
-	-- for overwide
+	-- for overide
+end
+
+function Panel:StoreConnection(id, endpoint)
+	self.Connected = true
+	self.Connections[id] = endpoint
+end
+
+function Panel:Unconnect(id)
+	self.Connections[id] = nil
+
+	if #self.Connections == 0 then self.Connected = false end
 end
 
 function Panel:GetConnectionID()
 	return self.ConnectionID
 end
 
-function Panel:GetConnection()
-	return self.ConnectedTo
+function Panel:GetConnection(id)
+	return self.Connections[id]
 end
 
 function Panel:SetConnectionID(id)

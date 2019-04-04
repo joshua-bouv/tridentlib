@@ -44,12 +44,6 @@ function Panel:Think()
 		local x, y = self:GetPos()
 		local xNew, yNew = x+-self.CanvasMovementX, y+-self.CanvasMovementY
 
-		print("---")
-		print(xNew/self.scale)
-		print(backX/self.scale)
-		print(xNew/self.scale+backX/self.scale)
-		print("---")
-
 		self:SetPos(xNew, yNew)
 		self:SetInternalPos(xNew/self.scale, yNew/self.scale, backX/self.scale, backY/self.scale)
 

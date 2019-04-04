@@ -25,7 +25,7 @@ function Panel:IsConnected()
 	return self.Connected
 end
 
-function Panel:GetConnectionID()
+function Panel:GetConnectionID(id)
 	return self.ConnectionID
 end
 
@@ -41,7 +41,7 @@ function Panel:GetPosition()
 	return x, y
 end
 
-function Panel:Unconnect()
+function Panel:Unconnect(id)
 	self.Connected = false
 	self.ConnectionID = false
 	self.ConnectedTo = false
@@ -56,7 +56,7 @@ function Panel:SetConnection(pnl)
 	self.ConnectedTo = pnl
 end
 
-function Panel:GetConnection(pnl)
+function Panel:GetConnection(id)
 	return self.ConnectedTo
 end
 
