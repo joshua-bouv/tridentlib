@@ -13,8 +13,18 @@ if SERVER then
 
 	local function Loopback(name, options, func)
 		options = options or {}
-		options.unpack = options["unpack"] or true
-		options.broadcast = options["broadcast"] or false
+		
+		if isbool(options.unpack) then
+			options.unpack = options.unpack
+		else
+			options.unpack = true
+		end
+
+		if isbool(options.broadcast) then
+			options.broadcast = options.broadcast
+		else
+			options.broadcast = false
+		end
 
 		local broadcast = type(broadcast) or false
 		if !_tridentlib.NET.messages[name] then
@@ -63,7 +73,12 @@ if CLIENT then
 	
 local function Transfer(name, options, func, ...)
 	options = options or {}
-	options.unpack = options["unpack"] or true
+	
+	if isbool(options.unpack) then
+		options.unpack = options.unpack
+	else
+		options.unpack = true
+	end
 
 	net.Start(name)
 		net.WriteTable({...})

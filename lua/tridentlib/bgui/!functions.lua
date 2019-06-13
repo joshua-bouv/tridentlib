@@ -6,29 +6,31 @@
 
 
 header = Color(3, 169, 244, 255)
-backGround = Color(255, 255, 255, 255)
+backGround = Color(52, 73, 94, 255)
 alternativeBackground = Color(235, 235, 235, 255)
 alternativeBackground2 = Color(215, 215, 215, 255)
 alternativeBackground3 = Color(200, 200, 200, 255)
 
-fade1 = Color(0, 0, 0, 12.5)
-fade2 = Color(0, 0, 0, 25)
-fade3 = Color(0, 0, 0, 50)
-fade4 = Color(0, 0, 0, 75)
-fade5 = Color(0, 0, 0, 100)
+fade1 = Color(125, 125, 125, 12.5)
+fade2 = Color(125, 125, 125, 25)
+fade3 = Color(125, 125, 125, 50)
+fade4 = Color(125, 125, 125, 75)
+fade5 = Color(125, 125, 125, 100)
 
-text = Color(100, 100, 100, 255)
+text = Color(255, 255, 255, 255)
 whiteText = Color(255, 255, 255, 255)
 blueText = Color(68, 138, 255, 255)
 redText = Color(255, 82, 82, 255)
 greenText = Color(76, 175, 80, 255)
 lightBlueText = Color(98, 168, 255, 255)
+orangeText = Color(243, 156, 18, 255)
 
 white = Color(255, 255, 255, 255)
 blue = Color(68, 138, 255, 255)
 lightBlue = Color(98, 168, 255, 255)
 red = Color(255, 82, 82, 255)
 black = Color(0, 0, 0, 255)
+transparent = Color(0, 0, 0, 0)
 
 blueTransparent = Color(68, 138, 255, 0)
 
@@ -44,6 +46,15 @@ function drawCircle(x, y, r)
     end
 
     surface.DrawPoly(circle)
+end
+
+function createAvatar(player, parent, w, h, x, y)
+    local avatar = vgui.Create("DPanel", parent)
+        avatar:SetSize(w, h)
+        avatar:SetPos(x, y)     
+        avatar:TDLib()
+            :CircleAvatar()
+            :SetPlayer(player, w*2)
 end
 
 function drawSpecialCircle(x, y, r)
