@@ -136,7 +136,9 @@ function _tridentlib.FileLoader.mapFolder(base, folder)
 		table.insert(_tridentlib.FileLoader.Data[base], table.Merge({ full = folder.."/"..v, raw = v }, _tridentlib.FileLoader.parseFile(v, folder.."/"..v)))
 	end 
 	for k, v in pairs(folders) do 
-		_tridentlib.FileLoader.mapFolder(base, folder.."/"..v) 
+		if (!string.StartWith(v, "-")) then
+			_tridentlib.FileLoader.mapFolder(base, folder.."/"..v) 
+		end
 	end 
 end 
 
@@ -147,7 +149,9 @@ function _tridentlib.FileLoader.mapStart(base, folder)
 		table.insert(_tridentlib.FileLoader.Data[base], table.Merge({ full = folder..v, raw = v }, _tridentlib.FileLoader.parseFile(v, folder..v)))
 	end 
 	for k, v in pairs(folder_table) do
-		_tridentlib.FileLoader.mapFolder(base, folder..v) 
+		if (!string.StartWith(v, "-")) then
+			_tridentlib.FileLoader.mapFolder(base, folder..v) 
+		end
 	end
 end 
 
