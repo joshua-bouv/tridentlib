@@ -4,21 +4,17 @@
   "priority": 3
 --tridentlib]]
 
-
 local Panel = {}
 
 function Panel:Init()
-	self.sliderOffValue = 0
-	self.sliderOnValue = 0
-	self.sliderLerpValue = 0
-	self.sliderTargetLerpValue = 0
-	self.sliderActive = false
-	self:SetValue(false)
-	self.colorLerpValue = alternativeBackground3
-	self.targetColorLerpValue = alternativeBackground3
+	self:SetToggle(false)
+
+	self.InternalCol = innerBackground
+	self.colorLerpValue = self.InternalCol
+	self.targetColorLerpValue = self.InternalCol
 end
 
-function Panel:SizeSet(w, h)
+function Panel:OnSizeChanged(w, h)
 	self.sliderOffValue = h/2
 	self.sliderOnValue = w-h/2
 	
@@ -37,45 +33,33 @@ function Panel:SizeSet(w, h)
 
 	self.sliderLerpValue = self.sliderOffValue
 	self.sliderTargetLerpValue = self.sliderOffValue
-	self:SetSize(w, h)
 end
 
 function Panel:Paint(w, h)
-	self.sliderLerpValue = Lerp(0.9, self.sliderTargetLerpValue, self.sliderLerpValue)
-	self.colorLerpValue = LerpColor(0.94, self.targetColorLerpValue, self.colorLerpValue)
+	self.sliderLerpValue = Lerp(0.9, self.sliderTargetLerpValue, self.sliderLerpValue) -- make global func not global
+	self.colorLerpValue = LerpColor(0.94, self.targetColorLerpValue, self.colorLerpValue) -- make global func not global
 
 	draw.NoTexture()
 
 	draw.RoundedBox(0, self.boxX, self.boxY, self.boxW, self.boxH, self.colorLerpValue)
 	surface.SetDrawColor(self.colorLerpValue)
-	drawSpecialCircle(self.circleX, self.circleY, self.circleR)
-	drawSpecialCircle(self.circleX_2, self.circleY_2, self.circleR_2)
+	drawSpecialCircle(self.circleX, self.circleY, self.circleR) -- make global func not global
+	drawSpecialCircle(self.circleX_2, self.circleY_2, self.circleR_2) -- make global func not global
 
-	surface.SetDrawColor(blueText)
-	drawSpecialCircle(self.sliderLerpValue, self.circleY, self.circleY)
+	surface.SetDrawColor(blue)
+	drawSpecialCircle(self.sliderLerpValue, self.circleY, self.circleY) -- make global func not global
 end
 
-function Panel:SetActive()
-	self.sliderTargetLerpValue = self.sliderOnValue
-	self.targetColorLerpValue = lightBlue
-	self.sliderActive = true
-	self:SetValue(true)
-end
-
-function Panel:DoClick()
-	self:OnChange()
-
-	if self.sliderActive == false then
+function Panel:OnChange(val)
+	if val then
 		self.sliderTargetLerpValue = self.sliderOnValue
 		self.targetColorLerpValue = lightBlue
-		self.sliderActive = true
 	else
 		self.sliderTargetLerpValue = self.sliderOffValue
-		self.targetColorLerpValue = Color(200, 200, 200, 255)
-		self.sliderActive = false
+		self.targetColorLerpValue = self.InternalCol
 	end
 
-	return true
+	self:SetToggle(val)
 end
 
 vgui.Register("BToggleBox", Panel, "DCheckBox")

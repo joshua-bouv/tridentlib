@@ -179,6 +179,7 @@ function _tridentlib.LoadAddon(data)
 	local nme = data["folder"] or data["name"]
 	_tridentlib.LoadAddonInt(data, nme)
 	_tridentlib.ConsolePrint(data, " > Loaded Addon")
+
 	_tridentlib.ConsolePrint(data, " ")
 end
 
@@ -211,7 +212,7 @@ else
 	net.Receive("tridentlib_load_orders",function()
 		local datax = net.ReadTable()
 		local data = datax[1] local conf = datax[2]
-		for k,v in pairs(data) do
+		for k, v in pairs(data) do
 			if conf[k] then
 				local data = { func = conf[k]["func"] }
 				_tridentlib.LoadAddonInt(data, k)
@@ -230,6 +231,5 @@ else
 				_tridentlib.ConsolePrint(data, " > Loaded Addon")
 			end
 		end
-
 	end)
 end                                                                                                                                                                             

@@ -7,38 +7,53 @@
 local Panel = {}
 
 function Panel:Init()
-	self.Col = backGround
-	self.lerpCol = blueTransparent
-	self.targetLerpCol = blueTransparent
-	self.text = ""
+	self:SetToggle(false)
+
+	self.Text = ""
+	self.Font = "Default" // need theme for default font
+
+	self.InternalCol = backGround
+	self.Col = self.InternalCol
+	self.TargetCol = self.InternalCol
+end
+
+function Panel:OnSizeChanged(w, h)
+	self.ws2 = w-2
+	self.hs2 = h-2
+	self.wd2 = w/2
+	self.hd2 = h/2
 end
 
 function Panel:Paint(w, h)
-	draw.RoundedBox(2, 0, 0, w, h, self.Col)
-	draw.RoundedBox(0, 1, 0, w-2, 1, fade5) -- TOP
-	draw.RoundedBox(0, 1, h-1, w-2, 1, fade5) -- BOTTOM
-	draw.RoundedBox(0, 0, 0, 1, h, fade5) -- LEFT
-	draw.RoundedBox(0, w-1, 0, 1, h, fade5) -- RIGHT
-	self.lerpCol = LerpTransparency(0.9, self.targetLerpCol, self.lerpCol)
-	draw.RoundedBox(2, 1, 1, w-2, h-2, self.lerpCol)
+	draw.RoundedBox(4, 0, 0, w, h, fade3)
+	draw.RoundedBox(4, 1, 1, self.ws2, self.hs2, self.Col)
+	draw.SimpleText(self.Text, self.Font, self.wd2, self.hd2, whiteText, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
-	draw.SimpleText(self.text, "eventsTextMidFont",w/2, h/2, whiteText, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-
-	if self:IsHovered() then
-		self.Col = alternativeBackground
-	else
-		self.Col = backGround
+	self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
+	
+	if not self:GetToggle() then
+		if self:IsHovered() then
+			self.TargetCol = innerBackground
+		else
+			self.TargetCol = backGround
+		end
 	end
 end
 
 function Panel:OnChange(val)
 	if val then
-		self.targetLerpCol = blue
-		self.text = "✓"
+		self.TargetCol = blue
+		self.Text = "✓"
 	else
-		self.targetLerpCol = blueTransparent
-		self.text = ""
+		self.TargetCol = self.InternalCol
+		self.Text = ""
 	end
+
+	self:SetToggle(val)
+end
+
+function Panel:SetFont(font)
+	self.Font = font
 end
 
 vgui.Register("BCheckBox", Panel, "DCheckBox")

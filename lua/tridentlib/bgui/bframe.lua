@@ -8,11 +8,10 @@ local Panel = {}
 
 function Panel:Init()
 	self:SetTitle("")
-	self.minimized = false
+	self.minimised = false
 	self.sideBarSep = 250
 	self.targetSideBarSep = 250
 	self.hooks = {}
-	self.data = {}
 	self.theme = "Events"
 
 	self.closeButton = vgui.Create("DButton", self)
@@ -20,7 +19,7 @@ function Panel:Init()
 	self.closeButton:SetSize(250, 50)
 	self.closeButton:SetText("")
 	self.closeButton.Paint = function(_, _, _, theme)
-		draw.DrawText("Close", "eventsSideBarFont", 55, 17, theme.Text.Default, TEXT_ALIGN_LEFT)
+		draw.DrawText("Close", "reports_sidebar", 55, 17, theme.Text.Default, TEXT_ALIGN_LEFT)
 	end
 	self.closeButton:tridentlib("THEME::Apply", self.theme)
 	self.closeButton.DoClick = function()
@@ -32,7 +31,7 @@ function Panel:Init()
 	self.moreTabs:SetText("")
 	self.moreTabs:SetPos(0, 0)
  	self.moreTabs.DoClick = function()
-		hook.Run(self.hooks["tabs"], self:IsMinimized())
+		hook.Run(self.hooks["tabs"], self:IsMinimised())
 	end
 	self.moreTabs.Paint = function(_, _, _, theme)
  		draw.RoundedBox(0, 15, 17, 20, 3, theme.Colors.White)
@@ -53,7 +52,7 @@ function Panel:Init()
 	self.sideBar:SetSize(250, 400)
 end
 
-function Panel:IsMinimized()
+function Panel:IsMinimised()
 	return self.minimized
 end
 
@@ -61,11 +60,11 @@ function Panel:SetTheme(str)
 	self.theme = str
 end
 
-function Panel:GetSidebarSeperator()
+function Panel:GetSidebarSeparator()
 	return self.sideBarSep
 end
 
-function Panel:GetSidebarSeperatorTarget()
+function Panel:GetSidebarSeparatorTarget()
 	return self.targetSideBarSep
 end
 
@@ -73,11 +72,11 @@ function Panel:SetMinimized(bool)
 	self.minimized = bool
 end
 
-function Panel:SetSidebarSeperatorTarget(num)
+function Panel:SetSidebarSeparatorTarget(num)
 	self.targetSideBarSep = num
 end
 
-function Panel:SetSidebarSeperator(num)
+function Panel:SetSidebarSeparator(num)
 	self.sideBarSep = num
 end
 
@@ -110,14 +109,10 @@ function Panel:FixImages(target, actived)
 	end
 end
 
-function Panel:SetData(data)
-	self.data = data
-end
-
 function Panel:SetTabs(tbl)
 	local function topBar(parent, topBarTabs)
 		self.topBarPanel = vgui.Create("DHorizontalScroller", parent)
-		self.topBarPanel:SetPos(self:GetSidebarSeperatorTarget(), 50)
+		self.topBarPanel:SetPos(self:GetSidebarSeparatorTarget(), 50)
 		self.topBarPanel:SetSize(750, 50)
 		self.topBarPanel.posTopBarHighlight = 0
 		self.topBarPanel.targetPosTopBarHighlight = 0
@@ -142,20 +137,20 @@ function Panel:SetTabs(tbl)
 				item.textCol = tridentlib("THEME::Get", self.theme)["Text"]["Default"]
 				item.DoClick = function()
 					self.tabContents:Clear()
-					hook.Run("eventsTabChanged", self:IsMinimized())
-					v["contents"](self.tabContents, v["format"](v["data"], self.data))
+					hook.Run(self.hooks["switch"], self:IsMinimised())
+					v["contents"](self.tabContents, v["format"](v["data"]))
 
 					self:ArrangeTopBar(v["pos"], boxSize)
 					self:FixTextColours(self.topBarPanel:GetChildren()[1]:GetChildren(), key)
 				end
 				item.Paint = function(self, w)
-					draw.DrawText(name, "eventsTopBarFont", w/2, 20, self.textCol, TEXT_ALIGN_CENTER)
+					draw.DrawText(name, "reports_topbar", w/2, 20, self.textCol, TEXT_ALIGN_CENTER)
 				end
 			    item:TDLib()
 					:CircleClick(Color(0, 0, 0, 25))
 		end
 
-		topBarTabs[1]["contents"](self.tabContents, topBarTabs[1]["format"](topBarTabs[1]["data"], self.data))
+		topBarTabs[1]["contents"](self.tabContents, topBarTabs[1]["format"](topBarTabs[1]["data"]))
 		self:FixTextColours(self.topBarPanel:GetChildren()[1]:GetChildren(), 1)
 	end
 
@@ -172,7 +167,7 @@ function Panel:SetTabs(tbl)
 			item.activeImage = v["activeImage"]
 			item.DoClick = function()
 				self.topBarPanel:Remove()
-				hook.Run(self.hooks["switch"], self:IsMinimized())
+				hook.Run(self.hooks["switch"], self:IsMinimised())
 				self.tabContents:Clear()
 
 				self:FixImages(self.sideBar:GetChildren()[1]:GetChildren(), key)
@@ -186,7 +181,7 @@ function Panel:SetTabs(tbl)
 				end
 			end
 			item.Paint = function(self)
-				draw.DrawText(name, "eventsSideBarFont", 55, 17, self.textCol, TEXT_ALIGN_LEFT)
+				draw.DrawText(name, "reports_sidebar", 55, 15, self.textCol, TEXT_ALIGN_LEFT)
 			end
 		    item:TDLib()
 				:CircleClick(Color(0, 0, 0, 25))

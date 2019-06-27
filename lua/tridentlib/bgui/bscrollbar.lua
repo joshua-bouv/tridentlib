@@ -7,26 +7,29 @@
 
 local Panel = {}
 
+local ws6 = 0
+
 function Panel:Init()
+	self.VBar:SetHideButtons(true)
+	self.VBar:SetWidth(8)
+
+	function self.VBar:Paint(_, h)
+		draw.RoundedBox(0, ws6, 0, 6, h, fade2)
+	end
+
 	function self.pnlCanvas:Paint()	end
 
-    local vbar = self.VBar
+	function self.VBar.btnUp:Paint() end
 
-	vbar:SetHideButtons(true)
+	function self.VBar.btnDown:Paint() end
 
-    vbar:SetWidth(8)
+	function self.VBar.btnGrip:Paint(_, h)
+		draw.RoundedBox(0, ws6, 0, 6, h, fade5)
+	end
+end
 
-    function vbar:Paint(w, h)
-        draw.RoundedBox(0, w-6, 0, 6, h, fade2)
-    end
-
-    function vbar.btnUp:Paint() end
-
-    function vbar.btnDown:Paint() end
-
-    function vbar.btnGrip:Paint(w, h)
-        draw.RoundedBox(0, w-6, 0, 6, h, fade5)
-    end
+function Panel:OnSizeChange()
+	ws6 = 0
 end
 
 vgui.Register("BScrollBar", Panel, "DScrollPanel")
