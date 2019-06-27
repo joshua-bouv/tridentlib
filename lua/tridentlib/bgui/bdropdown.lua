@@ -13,8 +13,12 @@ function Panel:Init()
 	self.Corners = false
 	self.BottomHighlight = false
 	self.Outline = false
+
 	self.Col = backGround
 	self.OutlineCol = transparent
+
+	self.Font = ""
+	self.OptionFont = ""
 
 	self:SetTextInset(5, -1)
 end
@@ -41,7 +45,7 @@ function Panel:Paint(w, h)
 		draw.RoundedBox(0, 0, 49, w, 1, fade2)
 	end
 
-	draw.SimpleText(self.VisibleMenuTitle, "eventsTextFontSmall", 5, 3, whiteText, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.SimpleText(self.VisibleMenuTitle, self.Font, 5, 3, whiteText, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 
 	if self:IsHovered() or self:IsMenuOpen() then
 		self.Col = innerBackground
@@ -59,26 +63,24 @@ function Panel:OnSelect()
 end
 
 function Panel:DoClick()
-
-	if (self:IsMenuOpen()) then
-		return self:CloseMenu()
-	end
+	if (self:IsMenuOpen()) then	return self:CloseMenu()	end
 
 	self:OpenMenu()
 
 	if !self.Menu then return end
+
 	self.Menu.Paint = function(_, w, h)
 		draw.RoundedBox(0, 0, 0, w, h, backGround)
 	end
 
 	for k, v in pairs(self.Menu:GetCanvas():GetChildren()) do
-		local text = ""
+		local check = ""
 
 		if k == self:GetSelectedID() then
-			text = "✓"
+			check = "✓"
 		end
 
-		v:SetFont("eventsTextFont")
+		v:SetFont(self.OptionFont)
 		v:SetColor(whiteText)
 		function v:Paint(w, h)
 			if v:IsHovered() then
@@ -86,7 +88,7 @@ function Panel:DoClick()
 			else
 				draw.RoundedBox(0, 1, 0, w-2, h-1, backGround)
 			end
-			draw.SimpleText(text, "eventsTickFont", 15, h/2, whiteText, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			draw.SimpleText(check, "eventsTickFont", 15, h/2, whiteText, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 		end
 	end
 end
