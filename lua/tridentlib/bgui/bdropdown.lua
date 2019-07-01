@@ -18,7 +18,7 @@ function Panel:Init()
 	self.MiniFont = "Default"
 	self.OptionFont = "Default"
 
-	self:SetTextInset(5, -1)
+	self:SetTextInset(2, -1)
 end
 
 function Panel:OnSizeChanged(w, h)
@@ -41,7 +41,7 @@ function Panel:Paint(w)
 end
 
 function Panel:OnSelect()
-	self:SetTextInset(5, 3)
+	self:SetTextInset(2, 3)
 
 	if self:GetTall() >= 35 then
 		self.VisibleMenuTitle = self.MenuTitle

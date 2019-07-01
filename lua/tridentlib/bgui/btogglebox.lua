@@ -50,6 +50,10 @@ function Panel:Paint(w, h)
 	drawSpecialCircle(self.sliderLerpValue, self.circleY, self.circleY) -- make global func not global
 end
 
+function Panel:OnToggled(val)
+	-- FOR OVERIDE
+end
+
 function Panel:OnChange(val)
 	if val then
 		self.sliderTargetLerpValue = self.sliderOnValue
@@ -60,6 +64,7 @@ function Panel:OnChange(val)
 	end
 
 	self:SetToggle(val)
+	self:OnToggled(val)
 end
 
 vgui.Register("BToggleBox", Panel, "DCheckBox")

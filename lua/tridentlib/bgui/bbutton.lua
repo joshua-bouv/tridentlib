@@ -9,8 +9,10 @@ local Panel = {}
 function Panel:Init()
 	self.Font = "Default"
 	self.Color = Color(255, 255, 255, 255)
+	self.TextColor = text
 	self.Outline = false
 	self.Text = ""
+	self:SetText("")
 end
 
 function Panel:OnSizeChanged(w, h)
@@ -24,13 +26,13 @@ end
 
 function Panel:Paint(w, h)
 	draw.RoundedBox(4, 0, self.hs8, w, 8, fade3)
-	draw.RoundedBox(4, 0, 0, w, self.hs2, blue)
-	if self.Outline then draw.RoundedBox(4, 2, 2, self.ws4, self.hs6, self.Color) end
+	draw.RoundedBox(4, 0, 0, w, self.hs2, self.Color)
+	if self.Outline then draw.RoundedBox(4, 2, 2, self.ws4, self.hs6, backGround) end
 
-	draw.SimpleText(self.Text, self.Font, self.wd2, self.hs2d2, text, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	draw.SimpleText(self.Text, self.Font, self.wd2, self.hs2d2, self.TextColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
-function Panel:SetText(txt)
+function Panel:SetTitle(txt)
 	self.Text = txt
 end
 
@@ -44,6 +46,10 @@ end
 
 function Panel:SetFont(txt)
 	self.Font = txt
+end
+
+function Panel:SetTextColor(col)
+	self.TextColor = col
 end
 
 vgui.Register("BButton", Panel, "DButton")

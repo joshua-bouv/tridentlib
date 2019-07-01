@@ -12,6 +12,7 @@ function Panel:Init()
 	self.TargetCol = self.InternalCol
 
 	self.Title = ""
+	self.ValChanged = false
 end
 
 function Panel:OnSizeChanged(w, h)
@@ -37,12 +38,23 @@ end
 function Panel:OnGetFocus()
 	if self:GetValue() == self.Title then
 		self:SetValue("")
+		self.ValChanged = true
 	end
 end
 
 function Panel:SetTitle(txt)
 	self:SetValue(txt)
 	self.Title = txt
+end
+
+function Panel:GetChangedVal()
+	local txt = ""
+
+	if self.ValChanged then
+		txt = self:GetValue()
+	end
+
+	return txt
 end
 
 vgui.Register("BTextEntry", Panel, "DTextEntry")

@@ -7,18 +7,14 @@
 local Panel = {}
 
 function Panel:Init()
-	self.Font = "Default"
-	self.ValueFont = "Default"
 	self:SetDecimals(0)
 
 	self.Label:SetVisible(false)
 
 	self.TextArea:SetTextColor(text)
-	self.TextArea:SetFont(self.ValueFont)
 
 	self.SliderDesc = vgui.Create("DLabel", self)
 	self.SliderDesc:SetTextColor(text)
-	self.SliderDesc:SetFont(self.Font)
 
 	function self.Slider:Paint(w, h)
 		local x, _ = self.Knob:GetPos()
@@ -41,12 +37,9 @@ function Panel:SetText(text)
 	self.SliderDesc:AlignBottom(0)
 end
 
-function Panel:SetFont(font)
-	self.Font = font
-end
-
-function Panel:SetValueFont(font)
-	self.ValueFont = font
+function Panel:SetFont(txt)
+	self.SliderDesc:SetFont(txt)
+	self.TextArea:SetFont(txt)
 end
 
 vgui.Register("BNumSlider", Panel, "DNumSlider")
