@@ -4,74 +4,45 @@
   "priority": 3
 --tridentlib]]
 
-
 local Panel = {}
 
 function Panel:Init()
-	self.PrimaryCol = backGround
-	self.AltCol = alternativeBackground
-	self.Col = self.PrimaryCol
-	self.BottomHighlight = true
-	self.MenuTitle = ""
-	self.VisibleMenuTitle = ""
-	self.VisibleMenuMainTitle = ""
-	self.spacing = ""
+	self.InternalCol = backGround
+	self.Col = self.InternalCol
+	self.TargetCol = self.InternalCol
+
+	self.Title = ""
+end
+
+function Panel:OnSizeChanged(w, h)
+	self.hs8 = h-8
+	self.hs2 = h-2
 end
 
 function Panel:Paint(w, h)
-	draw.RoundedBox(0, 0, 0, w, h, self.Col)
+	draw.RoundedBox(4, 0, self.hs8, w, 8, fade3)
+	draw.RoundedBox(4, 0, 0, w, self.hs2, self.Col)
 
-	if self.BottomHighlight then
-		draw.RoundedBox(0, 0, h-1, w, 1, fade2)
-	end
+	self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
 
-	draw.SimpleText(self.VisibleMenuTitle, "eventsTextFontSmall", 3, 1, blueText, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-	draw.SimpleText(self.spacing..self.VisibleMenuMainTitle, self:GetFont(), 3, h/2, text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)	
-
-	if self:IsHovered() then
-		self.Col = self.AltCol
+	if self:IsHovered() or self:IsEditing() then
+		self.TargetCol = innerBackground
 	else
-		self.Col = self.PrimaryCol
+		self.TargetCol = self.InternalCol
 	end
 
-	if self:IsEditing() then
-		self.VisibleMenuTitle = self.MenuTitle
-		self.VisibleMenuMainTitle = ""
-	else
-		if self:GetValue() == "" then
-			self.VisibleMenuTitle = ""
-			self.VisibleMenuMainTitle = self.MenuTitle
-		else
-			if self:GetValue() == self.MenuTitle then
-				self.VisibleMenuTitle = ""
-				self.VisibleMenuMainTitle = self.MenuTitle
-			else
-				self.VisibleMenuTitle = self.MenuTitle
-				self.VisibleMenuMainTitle = ""
-			end
-		end
+	self:DrawTextEntryText(self:GetTextColor(), self:GetHighlightColor(), whiteText)
+end
+
+function Panel:OnGetFocus()
+	if self:GetValue() == self.Title then
+		self:SetValue("")
 	end
-
-	self:DrawTextEntryText(self:GetTextColor(), self:GetHighlightColor(), self:GetCursorColor())
 end
 
-function Panel:ShowBottomHighlight(bool)
-	self.BottomHighlight = bool
-end
-
-function Panel:SetTitle(data)
-	self.MenuTitle = data
-	self.VisibleMenuMainTitle = data
-end
-
-function Panel:SetSpacing(str)
-	self.spacing = str
-end
-
-function Panel:SetColors(primary, alternative)
-	self.PrimaryCol = primary
-	self.AltCol = alternative
-	self.Col = self.PrimaryCol
+function Panel:SetTitle(txt)
+	self:SetValue(txt)
+	self.Title = txt
 end
 
 vgui.Register("BTextEntry", Panel, "DTextEntry")

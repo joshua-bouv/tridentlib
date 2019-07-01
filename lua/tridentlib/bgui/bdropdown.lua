@@ -26,7 +26,7 @@ function Panel:OnSizeChanged(w, h)
 	self.hs2 = h-2
 end
 
-function Panel:Paint(w, h)
+function Panel:Paint(w)
 	draw.RoundedBox(4, 0, self.hs8, w, 8, fade3)
 	draw.RoundedBox(4, 0, 0, w, self.hs2, self.Col)
 	draw.SimpleText(self.VisibleMenuTitle, self.MiniFont, 5, 3, whiteText, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)

@@ -7,76 +7,35 @@
 
 local Panel = {}
 
+
 function Panel:Init()
-	self.PrimaryCol = backGround
-	self.AltCol = alternativeBackground
-	self.Col = self.PrimaryCol
-	self.BottomHighlight = true
-	self.MenuTitle = ""
-	self.VisibleMenuTitle = ""
-	self.VisibleMenuMainTitle = ""
-	self.lengthOfText = {} 
-	self.length = 0
+	self.Text = ""
+	self:SetValue("")
 end
 
-function Panel:Paint(w, h)
-	draw.RoundedBox(0, 0, 0, w, h, self.Col)
+function Panel:OnSizeChanged(w, h)
+	self.hs8 = h-8
+	self.hs2 = h-2
+	self.hs2d2 = (h-2)/2
+end
 
-	if self.BottomHighlight then
-		draw.RoundedBox(0, 0, 49, w, 1, fade2)
-	end
+function Panel:Paint(w)
+	draw.RoundedBox(4, 0, self.hs8, w, 8, fade3)
+	draw.RoundedBox(4, 0, 0, w, self.hs2, self.Col)
 
-	draw.SimpleText(self.VisibleMenuTitle, "eventsTextFontSmall", 3, 1, blueText, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-	draw.SimpleText(self.VisibleMenuMainTitle, self:GetFont(), 3, h/2, text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)	
+	self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
 
-	if self:IsHovered() then
-		self.Col = self.AltCol
+	if self:IsHovered() or self:IsEditing() then
+		self.TargetCol = innerBackground
 	else
-		self.Col = self.PrimaryCol
+		self.TargetCol = self.InternalCol
 	end
 
-	if self:IsEditing() then
-		self.VisibleMenuTitle = self.MenuTitle
-		self.VisibleMenuMainTitle = ""
-	else
-		if self:GetValue() == "" then
-			self.VisibleMenuTitle = ""
-			self.VisibleMenuMainTitle = self.MenuTitle
-		else
-			if self:GetValue() == self.MenuTitle then
-				self.VisibleMenuTitle = ""
-				self.VisibleMenuMainTitle = self.MenuTitle
-			else
-				self.VisibleMenuTitle = self.MenuTitle
-				self.VisibleMenuMainTitle = ""
-			end
-		end
-	end
-
-	self.lengthOfText = {} 
-
-	self.length = string.len(self:GetText()) 
-
-	for i = 1, self.length do 
-		table.insert(self.lengthOfText, "●") 
-	end 
-
-	draw.SimpleText(table.concat(self.lengthOfText, ""), "eventsTextFont", 2, h/2, text , TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(self.Text, self:GetFont(), 5, self.hs2d2, whiteText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 end
 
-function Panel:ShowBottomHighlight(bool)
-	self.BottomHighlight = bool
+function Panel:OnChange()
+	self.Text = string.rep("●", string.len(self:GetText()))
 end
 
-function Panel:SetTitle(data)
-	self.MenuTitle = data
-	self.VisibleMenuMainTitle = data
-end
-
-function Panel:SetColors(primary, alternative)
-	self.PrimaryCol = primary
-	self.AltCol = alternative
-	self.Col = self.PrimaryCol
-end
-
-vgui.Register("BPassEntry", Panel, "DTextEntry")
+vgui.Register("BPassEntry", Panel, "BTextEntry")
