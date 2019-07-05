@@ -36,9 +36,17 @@ function Panel:Paint(w, h)
 end
 
 function Panel:OnGetFocus()
+	print("bbbb")
 	if self:GetValue() == self.Title then
 		self:SetValue("")
 		self.ValChanged = true
+	end
+end
+
+function Panel:OnLoseFocus()
+	if self:GetValue() == "" then
+		self:SetValue(self.Title)
+		self.ValChanged = false
 	end
 end
 

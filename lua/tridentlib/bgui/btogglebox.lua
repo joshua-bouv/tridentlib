@@ -12,6 +12,8 @@ function Panel:Init()
 	self.InternalCol = innerBackground
 	self.colorLerpValue = self.InternalCol
 	self.targetColorLerpValue = self.InternalCol
+
+	print(self.Theme)
 end
 
 function Panel:OnSizeChanged(w, h)

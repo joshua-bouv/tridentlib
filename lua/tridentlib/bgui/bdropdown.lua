@@ -15,20 +15,26 @@ function Panel:Init()
 	self.Col = self.InternalCol
 	self.TargetCol = self.InternalCol
 
+	self.Outline = false
+	self.OutlineCol = white
+
 	self.MiniFont = "Default"
 	self.OptionFont = "Default"
 
-	self:SetTextInset(2, -1)
+	self:SetTextInset(3, -1)
 end
 
 function Panel:OnSizeChanged(w, h)
 	self.hs8 = h-8
 	self.hs2 = h-2
+	self.ws4 = w-4
+	self.hs6 = h-6
 end
 
 function Panel:Paint(w)
 	draw.RoundedBox(4, 0, self.hs8, w, 8, fade3)
-	draw.RoundedBox(4, 0, 0, w, self.hs2, self.Col)
+	draw.RoundedBox(4, 0, 0, w, self.hs2, self.Col)	
+	if self.Outline then draw.RoundedBox(4, 0, 0, w, self.hs2, self.OutlineCol) draw.RoundedBox(4, 2, 2, self.ws4, self.hs6, self.Col) end
 	draw.SimpleText(self.VisibleMenuTitle, self.MiniFont, 5, 3, whiteText, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 
 	self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
@@ -41,7 +47,7 @@ function Panel:Paint(w)
 end
 
 function Panel:OnSelect()
-	self:SetTextInset(2, 3)
+	self:SetTextInset(3, 3)
 
 	if self:GetTall() >= 35 then
 		self.VisibleMenuTitle = self.MenuTitle
@@ -82,6 +88,24 @@ end
 function Panel:SetTitle(data)
 	self.MenuTitle = data
 	self:SetValue(data)
+end
+
+function Panel:SetColor(col)
+	self.InternalCol = col
+	self.Col = self.InternalCol
+	self.TargetCol = self.InternalCol
+end
+
+function Panel:SetOutline(bool)
+	self.Outline = bool	
+
+	if bool then
+		self.OutlineCol = self.InternalCol
+
+		self.InternalCol = backGround
+		self.Col = self.InternalCol
+		self.TargetCol = self.InternalCol
+	end
 end
 
 function Panel:SetOptionFont(txt)
