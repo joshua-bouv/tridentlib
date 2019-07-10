@@ -56,7 +56,7 @@ function createAvatar(player, parent, w, h, x, y)
         avatar:SetPos(x, y)     
         avatar:TDLib()
             :CircleAvatar()
-            :SetPlayer(player, w*2)
+            :SetSteamID(player, w*2)
 end
 
 function drawSpecialCircle(x, y, r)
