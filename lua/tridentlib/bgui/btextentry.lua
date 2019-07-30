@@ -45,7 +45,9 @@ end
 
 function Panel:OnLoseFocus()
 	if self:GetValue() == "" then
-		self:SetValue(self.Title)
+		timer.Simple(0.1, function() self:SetValue(self.Title) end)
+		print("er wtf")
+		print(self.Title)
 		self.ValChanged = false
 	end
 end
