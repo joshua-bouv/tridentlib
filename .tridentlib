@@ -1,0 +1,146 @@
+// Tridentlib Parser
+var fs = require("fs");
+var path = require('path');
+
+var settings = { 
+	"file": ".tridoc",
+	"watch": "false"
+}
+
+var walk = function(dir, done) {
+  var results = [];
+  fs.readdir(dir, function(err, list) {
+    if (err) return done(err);
+    var pending = list.length;
+    if (!pending) return done(null, results);
+    list.forEach(function(file) {
+      file = path.resolve(dir, file);
+      fs.stat(file, function(err, stat) {
+        if (stat && stat.isDirectory()) {
+          walk(file, function(err, res) {
+            results = results.concat(res);
+            if (!--pending) done(null, results);
+          });
+        } else {
+          results.push(file);
+          if (!--pending) done(null, results);
+        }
+      });
+    });
+  });
+};
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
+var count = 0;
+process.argv.forEach(function (val, index, array) {
+    count = count + 1
+    var doc = val.replace('--','');
+    if (doc !== val) {
+	  if (typeof settings[doc] !== 'undefined') {
+	  	settings[doc] = process.argv[count]
+	  }
+	}
+});
+
+var files;
+var contents;
+
+try {
+	contents = fs.readFileSync(settings["file"], 'utf8')
+} catch (err) {
+	console.log("TRIDOC file not found.")
+	process.exit();
+}
+try {
+	contents = JSON.parse(contents);
+} catch (err) {
+	console.log("Failed to parse TRIDOC file.")
+	process.exit();
+}
+
+var schemaBase = () => { return `
+/*
+----------------------------------------------------------------
+  TRIDENTCOM FILE LOADER
+  Generated for `+contents["name"]+`
+  Generated at `+new Date().toJSON().slice(0,10).replace(/-/g,'/')+`
+----------------------------------------------------------------
+*/
+` }
+
+var schema = schemaBase();
+
+function addToFile(string, data) {
+	var state = data["state"] || "server";
+	var priority = data["priority"] || 1;
+	var name = data["name"] || "Unknown";
+	state = state.toLowerCase()
+
+	var insert = "_tridentlib.loadFile(\"";
+	insert = insert + string + "\", \"";
+	insert = insert + name + "\", \"";
+	insert = insert + state + "\", ";
+	insert = insert + priority + ")";
+
+	schema = schema + `
+`+insert
+}
+
+function fetchData(fetch) {
+	var data = fs.readFileSync(fetch, 'utf8')
+	var retx = data.substring(
+	    data.lastIndexOf("--[[tridentlib") + 1, 
+	    data.lastIndexOf("--tridentlib]]")
+	).replace('-[[tridentlib','');
+	retx = "{"+retx+"}"
+	var cont;
+	try {
+		cont = JSON.parse(retx);
+	} catch (err) {
+		console.log("Failed to parse TRIDOC file.")
+		process.exit();
+	}
+	addToFile(fetch.replace(__dirname+"\\"+contents["subfolder"],'').replace("\\",'').replaceAll("\\\\",'/'), cont);
+}
+
+function triggerReformat() {
+	walk(__dirname+"/"+contents["subfolder"]+"/"+contents["folder"], function(err, results) {
+	    schema = schemaBase(); 
+
+		var insert = "_tridentlib.defineAddon(\"";
+		insert = insert + contents["name"] + "\", \"";
+		insert = insert + contents["namespace_nick"] + "\", \"";
+		insert = insert + contents["namespace"] + "\")";
+
+		schema = schema + `
+`+insert
+
+		results.forEach(function(element) {
+			fetchData(element)
+		});
+		fs.writeFile(__dirname+"/"+contents["subfolder"]+"/autorun/"+contents["output"], schema, function(err) {
+		    if(err) {
+		        return console.log(err);
+		    }
+		    console.log("File Generated and Saved.");
+		}); 
+	});
+	//console.log(files);
+    //getFolderData(files);
+	//fs.lstatSync(__dirname+"/"+contents["folder"]+"/"+files).isDirectory()
+}
+
+triggerReformat();
+
+if (settings["watch"] === "true") {
+	fs.watch(__dirname+"/"+contents["subfolder"]+"/"+contents["folder"], (eventType, filename) => {
+		console.log(eventType);
+		console.log(filename);
+		triggerReformat();
+	});
+	console.log("Watching files.");
+}
