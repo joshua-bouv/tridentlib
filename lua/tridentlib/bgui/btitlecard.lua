@@ -17,7 +17,7 @@ function Panel:Init()
 	self.expandShrink = vgui.Create("DImageButton", self)
 	self.expandShrink:SetSize(20, 20)
 	self.expandShrink:SetPos(700, 15)
-	self.expandShrink:SetImage("materials/up_icon.png")
+	self.expandShrink:SetImage("materials/up_icon_white.png")
 	self.expandShrink.DoClick = function()
 		if self.shrunk then
 			self.expandShrink:SetImage("materials/up_icon_white.png")
