@@ -1,11 +1,12 @@
-// Tridentlib Parser
-var fs = require("fs");
-var path = require('path');
-
 var settings = { 
 	"file": ".tridoc",
 	"watch": "false"
 }
+
+
+// Tridentlib Parser
+var fs = require("fs");
+var path = require('path');
 
 var walk = function(dir, done) {
   var results = [];
@@ -122,6 +123,15 @@ function triggerReformat() {
 		results.forEach(function(element) {
 			fetchData(element)
 		});
+
+		var insert = "_tridentlib.finalizeDefine(\"";
+		insert = insert + contents["name"] + "\", \"";
+		insert = insert + contents["namespace_nick"] + "\", \"";
+		insert = insert + contents["namespace"] + "\")";
+
+		schema = schema + `
+`+insert
+
 		fs.writeFile(__dirname+"/"+contents["subfolder"]+"/autorun/"+contents["output"], schema, function(err) {
 		    if(err) {
 		        return console.log(err);
