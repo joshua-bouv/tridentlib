@@ -60,6 +60,7 @@ local function generateDays(self, days)
 				day = i
 				self:SetValue(todate(day, month, year))
 				self.Menu:Remove()
+				self:OnDateChanged()
 			end
 	end
 end
@@ -80,9 +81,17 @@ function Panel:Init()
 	self:SetTextInset(3, -1)
 end
 
+function Panel:GetDate()
+	return ""..day.."/"..month.."/"..year..""
+end
+
 function Panel:OnSizeChanged(w, h)
 	self.hs8 = h-8
 	self.hs2 = h-2
+end
+
+function Panel:OnDateChanged()
+	-- for overide
 end
 
 function Panel:DoClick()

@@ -8,7 +8,7 @@
 local Panel = {}
 
 function Panel:Init()
-	self.shrunk = false
+	self.shrunk = true
 
 	self.items = vgui.Create("DListLayout", self)
 	self.items:Dock(FILL)
@@ -17,7 +17,7 @@ function Panel:Init()
 	self.expandShrink = vgui.Create("DImageButton", self)
 	self.expandShrink:SetSize(20, 20)
 	self.expandShrink:SetPos(700, 15)
-	self.expandShrink:SetImage("materials/up_icon_white.png")
+	self.expandShrink:SetImage("materials/down_icon_white.png")
 	self.expandShrink.DoClick = function()
 		if self.shrunk then
 			self.expandShrink:SetImage("materials/up_icon_white.png")
@@ -34,14 +34,11 @@ end
 function Panel:AddItem(panel)
 	self.items:Add(panel)
 	self.wide, self.tall = self:GetWide(), (#self.items:GetChildren()*50)+60
-	self:SetSize(self:GetWide(), (#self.items:GetChildren()*50)+40)
-
 end
 
 function Panel:AddChild(panel)
 	self.items:Add(panel)
 	self.wide, self.tall = self:GetWide(), panel:GetTall()+60
-	self:SetSize(self.wide, self.tall)
 	
 	panel.ItemAdded = function()
 		self:UpdateLayout(panel)
