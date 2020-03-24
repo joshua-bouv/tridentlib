@@ -4,5 +4,5 @@
 	"folder": "tridentlib",
 	"subfolder": "lua",
 	"namespace": "true",
-	"namespace_nick": "tridentcom"
+	"namespace_nick": "tridentlib"
 }

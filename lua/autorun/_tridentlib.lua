@@ -78,30 +78,27 @@ function _tridentlib.LoadAddonInt(name, namespace, enable_namespace)
 	end
 end
 
-if SERVER then
-	function _tridentlib.defineAddon(name, namespace, enable_namespace)
-		_tridentlib.LoadAddonInt(name, namespace, enable_namespace)
-	end
-	function _tridentlib.loadFile(file, name, state, priority)
-		if (state === "client") then AddCSLuaFile(file) end
-		if (state === "shared") then AddCSLuaFile(file) require(file) end
-		if (state === "server") then require(file) end
-		print(" > Loaded "..name)
-	end
-	function _tridentlib.finalizeDefine(name, namespace, enable_namespace)
-		print("> Finished loading "..name)
-	end
+function _tridentlib.defineAddon(name, namespace, enable_namespace)
+	_tridentlib.LoadAddonInt(name, namespace, enable_namespace)
 end
 
-if CLIENT then
-	function _tridentlib.defineAddon(name, namespace, enable_namespace)
-		_tridentlib.LoadAddonInt(name, namespace, enable_namespace)
+function _tridentlib.loadFile(file, name, state, priority)
+	local loaded = false
+	if (state == "client") then 
+		if SERVER then AddCSLuaFile(file) end 
+		if CLIENT then include(file) loaded=true end 
 	end
-	function _tridentlib.loadFile(file, name, state, priority)
-		if (state === "client" or state === "shared") then require(file) end
-		print(" > Loaded "..name)
+	if (state == "shared") then 
+		if SERVER then AddCSLuaFile(file) end
+		include(file) 
+		loaded=true
 	end
-	function _tridentlib.finalizeDefine(name, namespace, enable_namespace)
-		print("> Finished loading "..name)
+	if (state == "server") then 
+		if SERVER then include(file) loaded=true end
 	end
+	if (loaded) then print(" > Loaded "..name) end
+end
+
+function _tridentlib.finalizeDefine(name, namespace, enable_namespace)
+	print("> Finished loading "..name)
 end
