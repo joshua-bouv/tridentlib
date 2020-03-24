@@ -1,6 +1,6 @@
 {
 	"name": "Tridentlib",
-	"output": "!tridentlib.lua",
+	"output": "_tridentlib.lua",
 	"folder": "tridentlib",
 	"subfolder": "lua",
 	"namespace": "true",

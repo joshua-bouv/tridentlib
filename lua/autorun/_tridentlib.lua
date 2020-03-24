@@ -1,104 +1,44 @@
- -- TRIDENTLIB 4.0                                    
-_tridentlib = _tridentlib or {}     
-_tridentlib.metaTables = {}  
 
-_tridentlib.MetaTables = {}
-_tridentlib.MetaFunctions = {}
+/*
+----------------------------------------------------------------
+  TRIDENTCOM FILE LOADER
+  Generated for Tridentlib
+  Generated at 2020/03/24
+----------------------------------------------------------------
+*/
 
-_tridentlib.FunctionLoader = _tridentlib.FunctionLoader or {}
-_tridentlib.FunctionLoader.Functions = _tridentlib.FunctionLoader.Functions or {}
-
---[ CONSOLE PRINT ]  
-function _tridentlib.ConsolePrint(message)
-	print(message)
-end
-
---[ META FUNCTION LOADER ]  
-function _tridentlib.CreateMetaFunction(v, explode, name)
-	local inject = [[
-	local meta = FindMetaTable("%s")
-	if !meta then return end
-	function meta:%s(func, ...)
-		return _tridentlib.RunFunction("%s::"..func, self, ...)
-	end
-	]]
-	local func, err = CompileString(string.format(inject, v, explode, explode, explode), "TRIDENTLIB::Meta Definer", false)
-	if err then print("TRIDENTLIB::Meta Definer | Fatal error in: "..name) end
-	func()
-end
-
---[ META FUNCTION LOADER ]  
-function _tridentlib.DefineFunction(name, func, metatables)
-	local explode = string.Explode("::", name)[1]
-	if metatables then
-		if metatables[1] then
-			_tridentlib.metaTables[explode] = _tridentlib.metaTables[explode] or {}
-			for _, v in pairs(metatables) do
-				if !_tridentlib.metaTables[explode][v] then
-					_tridentlib.CreateMetaFunction(v, explode, name)
-					_tridentlib.metaTables[explode][v] = true
-				end
-			end
-		end
-	end
-	_tridentlib.FunctionLoader.Functions[name] = func
-end
-
---[ META FUNCTION LOADER ]  
-function _tridentlib.RunFunction(func, self, ...)
-	if _tridentlib.FunctionLoader.Functions[func] then
-		if self then
-			return _tridentlib.FunctionLoader.Functions[func](self, ...)
-		else
-			return _tridentlib.FunctionLoader.Functions[func](...)
-		end
-	end
-	error("TRIDENTLIB::Function Loader | attempt to call a nil function: "..func )
-end
-
---[ LOAD ADDDON INT ] 
-function _tridentlib.LoadAddonInt(name, namespace, enable_namespace)
-	_tridentlib.ConsolePrint(" ")
-	_tridentlib.ConsolePrint("TRIDENTLIB> Loading Addon: "..name..".")
-	_tridentlib.ConsolePrint(" > Initializing addon.")
-	local inject = [[
-	local function DefineFunction(name, func, metatables)
-		_tridentlib.DefineFunction("%s::"..name, func, metatables)
-	end
-	_tridentlib.DefineFunction("%s::DefineFunction", DefineFunction, {})
-
-	function %s(func, ...)
-		return _tridentlib.RunFunction("%s::"..func, nil, ...)
-	end
-	]]
-	if (enable_namespace == "true") then
-		local func, err = CompileString(string.format(inject, namespace, namespace, namespace, namespace, namespace, namespace), "TRIDENTLIB::Function Definer", false)
-		if err then error("TRIDENTLIB::Function Definer | Fatal Error loading "..name.."/"..namespace, 2) 
-		else func() _tridentlib.ConsolePrint(" > Enabled namespace functions.") end
-	end
-end
-
-function _tridentlib.defineAddon(name, namespace, enable_namespace)
-	_tridentlib.LoadAddonInt(name, namespace, enable_namespace)
-end
-
-function _tridentlib.loadFile(file, name, state, priority)
-	local loaded = false
-	if (state == "client") then 
-		if SERVER then AddCSLuaFile(file) end 
-		if CLIENT then include(file) loaded=true end 
-	end
-	if (state == "shared") then 
-		if SERVER then AddCSLuaFile(file) end
-		include(file) 
-		loaded=true
-	end
-	if (state == "server") then 
-		if SERVER then include(file) loaded=true end
-	end
-	if (loaded) then print(" > Loaded "..name) end
-end
-
-function _tridentlib.finalizeDefine(name, namespace, enable_namespace)
-	print("> Finished loading "..name)
-end
+_tridentlib.defineAddon("Tridentlib", "tridentlib", "true")
+_tridentlib.loadFile("tridentlib/functions/meta.lua", "Meta Lib", "shared", 1)
+_tridentlib.loadFile("tridentlib/bgui/_functions.lua", "Functions", "client", 2)
+_tridentlib.loadFile("tridentlib/bgui/#bconnector.lua", "Connector", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/#bendpoint.lua", "Endpoint", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/#bresizablebox.lua", "Resizable Box", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/#bstarrater.lua", "Star rater", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/bblueprint.lua", "Blueprint", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/bbutton.lua", "Button", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/bcalender.lua", "Calender", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/bcheckbox.lua", "Checkbox", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/bdropdown.lua", "Dropdown", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/bframe.lua", "Frame", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/bitemlist.lua", "Itemlist", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/bnumslider.lua", "Num slider", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/bpassentry.lua", "Password Entry", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/bscrollbar.lua", "Scrollbar", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/btextentry.lua", "Text Entry", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/btitlecard.lua", "Title Card", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/btogglebox.lua", "Toggle Box", "client", 3)
+_tridentlib.loadFile("tridentlib/bgui/cl_tdlib.lua", "TDLIB", "client", 3)
+_tridentlib.loadFile("tridentlib/functions/database.lua", "Database Module", "server", 10)
+_tridentlib.loadFile("tridentlib/functions/base.lua", "Base Module", "shared", 9999)
+_tridentlib.loadFile("tridentlib/functions/charts.lua", "Charts Module", "disabled", 9999)
+_tridentlib.loadFile("tridentlib/functions/color.lua", "Color Module", "client", 9999)
+_tridentlib.loadFile("tridentlib/functions/dataset.lua", "Dataset Module", "server", 9999)
+_tridentlib.loadFile("tridentlib/functions/derma.lua", "Derma Module", "client", 9999)
+_tridentlib.loadFile("tridentlib/functions/gmslib.lua", "GMS Module", "client", 9999)
+_tridentlib.loadFile("tridentlib/functions/image.lua", "Image Module", "client", 9999)
+_tridentlib.loadFile("tridentlib/functions/key.lua", "Keybind Module", "client", 9999)
+_tridentlib.loadFile("tridentlib/functions/net.lua", "Net Module", "shared", 9999)
+_tridentlib.loadFile("tridentlib/functions/playermanager.lua", "PlayerManager Module", "shared", 9999)
+_tridentlib.loadFile("tridentlib/functions/prems.lua", "Prems Module", "shared", 9999)
+_tridentlib.loadFile("tridentlib/functions/slowload.lua", "SlowLoad Module", "client", 9999)
+_tridentlib.finalizeDefine("Tridentlib", "tridentlib", "true")
