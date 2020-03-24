@@ -105,7 +105,7 @@ function fetchData(fetch) {
 		console.log("Failed to parse TRIDOC file.")
 		process.exit();
 	}
-	addToFile(fetch.replace(__dirname+"\\"+contents["subfolder"],'').replace("\\",'').replaceAll("\\\\",'/'), cont);
+	return {data: cont, path: fetch}
 }
 
 function triggerReformat() {
@@ -120,8 +120,17 @@ function triggerReformat() {
 		schema = schema + `
 `+insert
 
+		let data = [];
 		results.forEach(function(element) {
-			fetchData(element)
+			data.push(fetchData(element));
+		});
+
+		data.sort(function(a, b) {
+		    return a["data"]["priority"] || 999999 - b["data"]["priority"] || 999999;
+		});
+
+		data.forEach(function(element) {
+			addToFile(element["path"].replace(__dirname+"\\"+contents["subfolder"],'').replace("\\",'').replaceAll("\\\\",'/'), element["data"]);
 		});
 
 		var insert = "_tridentlib.finalizeDefine(\"";
