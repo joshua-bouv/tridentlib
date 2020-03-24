@@ -100,5 +100,5 @@ function _tridentlib.loadFile(file, name, state, priority)
 end
 
 function _tridentlib.finalizeDefine(name, namespace, enable_namespace)
-	print("> Finished loading "..name)
+	print("> Finished loading Addon: "..name..".")
 end

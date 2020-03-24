@@ -156,9 +156,8 @@ function triggerReformat() {
 triggerReformat();
 
 if (settings["watch"] === "true") {
-	fs.watch(__dirname+"/"+contents["subfolder"]+"/"+contents["folder"], (eventType, filename) => {
-		console.log(eventType);
-		console.log(filename);
+	fs.watch(__dirname+"\\"+contents["subfolder"]+"\\"+contents["folder"], "utf8", (eventType, filename) => {
+		console.log("Updated: "+filename)
 		triggerReformat();
 	});
 	console.log("Watching files.");
