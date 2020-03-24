@@ -10,10 +10,10 @@ _tridentlib.ThemeFallback = {}
 local function GetTheme(addon)
     if _tridentlib.Theme[addon] then
         if _tridentlib.Themes[addon][_tridentlib.Theme[addon]] then
-            return _tridentlib.Themes[addon][_tridentlib.Theme[addon]]
+            return table.Copy(_tridentlib.Themes[addon][_tridentlib.Theme[addon]])
         else
             if _tridentlib.Themes[_tridentlib.ThemeFallback[addon]] then
-                return _tridentlib.ThemeFallback[_tridentlib.Theme[addon]]
+                return table.Copy(_tridentlib.ThemeFallback[_tridentlib.Theme[addon]])
             else
                 error("Theme and fallback theme failed.")
             end
@@ -54,7 +54,7 @@ tridentlib("DefineFunction", "THEME::Set", SetTheme )
 local function GetThemes(addon)
     if _tridentlib.Theme[addon] then
         if _tridentlib.Themes[addon] then
-            return _tridentlib.Themes[addon]
+            return table.Copy(_tridentlib.Themes[addon])
         end
     end
 end
