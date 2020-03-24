@@ -37,22 +37,22 @@ local function generateDays(self, days)
 		local but = vgui.Create("DButton", self.calender)
 			but:SetSize(20, 20)
 			but:SetText("")
-			but:SetTextColor(whiteText)
+			but:SetTextColor(tridentlib("THEME::Get", "BFrame_Default")["Text"]["Default"])
 			but:SetFont("reports_text")
 			self.calender:AddItem(but)
 			but.Active = false
-			if i == curDay and month == curMonth and year == curYear then but.Active = true but.Col = blue but.TargetCol = blue else but.Col = backGround but.TargetCol = but.Col end
-			but.Paint = function(self, w, h)
+			if i == curDay and month == curMonth and year == curYear then but.Active = true but.Col = tridentlib("THEME::Get", "BFrame_Default")["Colors"]["Blue"] but.TargetCol = tridentlib("THEME::Get", "BFrame_Default")["Colors"]["Blue"] else but.Col = tridentlib("THEME::Get", "BFrame_Default")["Base"]["Background"] but.TargetCol = but.Col end
+			but.Paint = function(self, w, h, theme)
 				draw.RoundedBox(4, 0, 0, w, h, self.Col)
-				draw.SimpleText(i, "reports_text", w/2, h/2, whiteText, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw.SimpleText(i, "reports_text", w/2, h/2, theme.Text.Default, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
 				self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
 
 				if not self.Active then
 					if self:IsHovered() then
-						self.TargetCol = innerBackground
+						self.TargetCol = theme.Base.InnerBackground
 					else
-						self.TargetCol = backGround
+						self.TargetCol = theme.Base.Background
 					end
 				end
 			end
@@ -62,6 +62,7 @@ local function generateDays(self, days)
 				self.Menu:Remove()
 				self:OnDateChanged()
 			end
+			but:tridentlib("THEME::Apply", "BFrame_Default")
 	end
 end
 
@@ -72,11 +73,12 @@ local function getMonthDays()
 end
 
 function Panel:Init()
-	self.InternalCol = backGround
+	self.InternalCol = tridentlib("THEME::Get", "BFrame_Default")["Base"]["Background"]
 	self.Col = self.InternalCol
 	self.TargetCol = self.InternalCol
 	self.SelectedDay, self.SelectedMonth, self.SelectedYear = day, month, year
 	self:SetValue("Select date")
+	self:tridentlib("THEME::Apply", "BFrame_Default")
 
 	self:SetTextInset(3, -1)
 end
@@ -104,12 +106,13 @@ function Panel:DoClick()
 	self.Menu:MakePopup()
 	self.Menu:SetVisible( true )
 	self.Menu:SetKeyboardInputEnabled( false )
-	self.Menu.Paint = function(_, w, h)
-		draw.RoundedBox(4, 0, 0, w, h, innerBackground)
-		draw.RoundedBox(4, 5, 30, w-10, h-35, backGround)
-		draw.SimpleText(months[month]["month"], "reports_text", w/2, 5, whiteText, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
-		draw.SimpleText(year, "reports_text_extra_small", w/2, 27.5, whiteText, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+	self.Menu.Paint = function(_, w, h, theme)
+		draw.RoundedBox(4, 0, 0, w, h, theme.Base.InnerBackground)
+		draw.RoundedBox(4, 5, 30, w-10, h-35, theme.Base.Background)
+		draw.SimpleText(months[month]["month"], "reports_text", w/2, 5, theme.Text.Default, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+		draw.SimpleText(year, "reports_text_extra_small", w/2, 27.5, theme.Text.Default, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 	end
+	self.Menu:tridentlib("THEME::Apply", "BFrame_Default")
 
 	self.calender = vgui.Create("DGrid", self.Menu)
 	self.calender:SetPos(5, 30)
@@ -122,8 +125,8 @@ function Panel:DoClick()
 	self.prevMonth:SetSize(20, 20)
 	self.prevMonth:SetTitle("<")
 	self.prevMonth:SetFont("reports_text")
-	self.prevMonth:SetTextColor(whiteText)
-	self.prevMonth:SetColor(backGround)
+	self.prevMonth:SetTextColor(tridentlib("THEME::Get", "BFrame_Default")["Text"]["Default"])
+	self.prevMonth:SetColor(tridentlib("THEME::Get", "BFrame_Default")["Base"]["Background"])
 	self.prevMonth:SetOutline(true)
 	self.prevMonth.DoClick = function()
 		if month == 1 then 
@@ -141,8 +144,8 @@ function Panel:DoClick()
 	self.nextMonth:SetSize(20, 20)
 	self.nextMonth:SetTitle(">")
 	self.nextMonth:SetFont("reports_text")
-	self.nextMonth:SetTextColor(whiteText)
-	self.nextMonth:SetColor(backGround)
+	self.nextMonth:SetTextColor(tridentlib("THEME::Get", "BFrame_Default")["Text"]["Default"])
+	self.nextMonth:SetColor(tridentlib("THEME::Get", "BFrame_Default")["Base"]["Background"])
 	self.nextMonth:SetOutline(true)
 	self.nextMonth.DoClick = function()
 		if month == 12 then 
@@ -158,13 +161,13 @@ function Panel:DoClick()
 	generateDays(self, getMonthDays())
 end
 
-function Panel:Paint(w, h)
-	draw.RoundedBox(4, 0, self.hs8, w, 8, fade3)
+function Panel:Paint(w, h, theme)
+	draw.RoundedBox(4, 0, self.hs8, w, 8, theme.Base.Fade3)
 	draw.RoundedBox(4, 0, 0, w, self.hs2, self.Col)	
 	self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
 
 	if self:IsHovered() or self:IsMenuOpen() then
-		self.TargetCol = innerBackground
+		self.TargetCol = tridentlib("THEME::Get", "BFrame_Default")["Base"]["InnerBackground"]
 	else
 		self.TargetCol = self.InternalCol
 	end

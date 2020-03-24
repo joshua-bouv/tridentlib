@@ -14,7 +14,8 @@ tridentlib("THEME::Create", "BFrame_Default", {
             ContainerUnderline = Color(0, 0, 0, 25),
             ButtonBorder = Color(0, 0, 0, 50),
             Fade2 = Color(125, 125, 125, 25),
-            Fade3 = Color(125, 125, 125, 50),            
+            Fade3 = Color(125, 125, 125, 50),
+            Fade5 = Color(125, 125, 125, 100)
         },
         Text = {
             Default = Color(255, 255, 255, 255),
@@ -22,14 +23,18 @@ tridentlib("THEME::Create", "BFrame_Default", {
             Red = Color(244, 67, 54, 255),
             Blue = Color(68, 138, 255, 255),
             LightBlue = Color(98, 168, 255, 255),
-            Green = Color(76, 175, 80, 255)
+            Green = Color(76, 175, 80, 255),
+            Unkown = Color(49, 49, 49, 255)
         },
         Colors = {
             White = Color(255, 255, 255, 255),
             Blue = Color(68, 138, 255, 255),
             LightBlue = Color(98, 168, 255, 255),
             Black = Color(0, 0, 0, 255),
-            Red = Color(244, 67, 54, 255)
+            Red = Color(244, 67, 54, 255),
+            Green = Color(76, 175, 80, 255),
+            Transparent = Color(0, 0, 0, 0),
+            Unkown = Color(49, 49, 49, 255)
         },
         Dashboard = {
             Header = Color(244, 67, 54, 255),
@@ -158,7 +163,7 @@ function Panel:SetTabs(tbl)
 			self.topBarWidtHighlight = Lerp(0.9, self.targetTopBarWidtHighlight, self.topBarWidtHighlight)	
 			draw.RoundedBox(0, self.posTopBarHighlight, 48, self.topBarWidtHighlight, 2, theme.Colors.Blue)	
 		end
-		self.topBarPanel:tridentlib("THEME::Apply", "Reports")
+		self.topBarPanel:tridentlib("THEME::Apply", "BFrame_Default")
 
 		for key, v in pairs(topBarTabs) do
 			local name = v["name"]

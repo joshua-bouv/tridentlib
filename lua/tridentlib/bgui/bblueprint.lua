@@ -6,6 +6,10 @@
 
 local Panel = {}
 
+/*
+DO TRIDENTLIB COLORS
+*/
+
 function Panel:Init()
 //	self.Dragging = false
 //	self.ZoomAmount = 1

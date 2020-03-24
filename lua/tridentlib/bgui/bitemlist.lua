@@ -4,6 +4,9 @@
   "priority": 3
 --tridentlib]]
 
+/*
+DO TRIDENTLIB COLORS
+*/
 
 local Panel = {}
 
@@ -13,7 +16,7 @@ function Panel:Init()
 	self.textEntry = self:Add("BTextEntry")
 	self.textEntry:SetTitle("")
 	self.textEntry:SetFont("eventsTextLargeFont")
-	self.textEntry:SetTextColor(text)
+	self.textEntry:SetTextColor(tridentlib("THEME::Get", "BFrame_Default")["Text"]["Default"])
 --	self.textEntry:ShowBottomHighlight(false)
 	self.textEntry.OnEnter = function(textEntry)
 		self:AddItems({[1] = {["mainData"] = self.textEntry:GetValue(), ["otherData"] = false}})

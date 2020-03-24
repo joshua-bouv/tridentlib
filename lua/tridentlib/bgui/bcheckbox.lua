@@ -12,9 +12,10 @@ function Panel:Init()
 	self.Text = ""
 	self.Font = "Default" // need theme for default font
 
-	self.InternalCol = backGround
+	self.InternalCol = tridentlib("THEME::Get", "BFrame_Default")["Base"]["Background"]
 	self.Col = self.InternalCol
 	self.TargetCol = self.InternalCol
+	self:tridentlib("THEME::Apply", "BFrame_Default")
 end
 
 function Panel:OnSizeChanged(w, h)
@@ -25,24 +26,24 @@ function Panel:OnSizeChanged(w, h)
 end
 
 function Panel:Paint(w, h)
-	draw.RoundedBox(4, 0, 0, w, h, fade3)
+	draw.RoundedBox(4, 0, 0, w, h, theme.Base.Fade3)
 	draw.RoundedBox(4, 1, 1, self.ws2, self.hs2, self.Col)
-	draw.SimpleText(self.Text, self.Font, self.wd2, self.hd2, whiteText, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	draw.SimpleText(self.Text, self.Font, self.wd2, self.hd2, theme.Base.Default, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
 	self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
 	
 	if not self:GetToggle() then
 		if self:IsHovered() then
-			self.TargetCol = innerBackground
+			self.TargetCol = theme.Base.InnerBackground
 		else
-			self.TargetCol = backGround
+			self.TargetCol = theme.Base.Background
 		end
 	end
 end
 
 function Panel:OnChange(val)
 	if val then
-		self.TargetCol = blue
+		self.TargetCol = tridentlib("THEME::Get", "Reports")["Colors"]["Blue"]
 		self.Text = "✓"
 	else
 		self.TargetCol = self.InternalCol

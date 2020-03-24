@@ -7,12 +7,13 @@
 local Panel = {}
 
 function Panel:Init()
-	self.InternalCol = backGround
-	self.Col = self.InternalCol
-	self.TargetCol = self.InternalCol
+	self.Col = tridentlib("THEME::Get", "BFrame_Default")["Base"]["Background"]
+	self.TargetCol = tridentlib("THEME::Get", "BFrame_Default")["Base"]["Background"]
 
 	self.Title = ""
 	self.ValChanged = false
+
+	self:tridentlib("THEME::Apply", "BFrame_Default")
 end
 
 function Panel:OnSizeChanged(w, h)
@@ -20,23 +21,22 @@ function Panel:OnSizeChanged(w, h)
 	self.hs2 = h-2
 end
 
-function Panel:Paint(w, h)
-	draw.RoundedBox(4, 0, self.hs8, w, 8, fade3)
+function Panel:Paint(w, h, theme)
+	draw.RoundedBox(4, 0, self.hs8, w, 8, theme.Base.Fade3)
 	draw.RoundedBox(4, 0, 0, w, self.hs2, self.Col)
 
 	self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
 
 	if self:IsHovered() or self:IsEditing() then
-		self.TargetCol = innerBackground
+		self.TargetCol = theme.Base.InnerBackground
 	else
-		self.TargetCol = self.InternalCol
+		self.TargetCol = theme.Base.Background
 	end
 
-	self:DrawTextEntryText(self:GetTextColor(), self:GetHighlightColor(), whiteText)
+	self:DrawTextEntryText(self:GetTextColor(), self:GetHighlightColor(), theme.Text.Default)
 end
 
 function Panel:OnGetFocus()
-	print("bbbb")
 	if self:GetValue() == self.Title then
 		self:SetValue("")
 		self.ValChanged = true
@@ -46,8 +46,6 @@ end
 function Panel:OnLoseFocus()
 	if self:GetValue() == "" then
 		timer.Simple(0.1, function() self:SetValue(self.Title) end)
-		print("er wtf")
-		print(self.Title)
 		self.ValChanged = false
 	end
 end

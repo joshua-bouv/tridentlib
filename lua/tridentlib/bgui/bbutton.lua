@@ -9,10 +9,11 @@ local Panel = {}
 function Panel:Init()
 	self.Font = "Default"
 	self.Color = Color(255, 255, 255, 255)
-	self.TextColor = text
+	self.TextColor = tridentlib("THEME::Get", "Reports")["Text"]["Default"]
 	self.Outline = false
 	self.Text = ""
 	self:SetText("")
+	self:tridentlib("THEME::Apply", "BFrame_Default")
 end
 
 function Panel:OnSizeChanged(w, h)
@@ -24,10 +25,10 @@ function Panel:OnSizeChanged(w, h)
 	self.ws4 = w-4
 end
 
-function Panel:Paint(w, h)
-	draw.RoundedBox(4, 0, self.hs8, w, 8, fade3)
+function Panel:Paint(w, h, theme)
+	draw.RoundedBox(4, 0, self.hs8, w, 8, theme.Base.Fade3)
 	draw.RoundedBox(4, 0, 0, w, self.hs2, self.Color)
-	if self.Outline then draw.RoundedBox(4, 2, 2, self.ws4, self.hs6, backGround) end
+	if self.Outline then draw.RoundedBox(4, 2, 2, self.ws4, self.hs6, theme.Base.Background) end
 
 	draw.SimpleText(self.Text, self.Font, self.wd2, self.hs2d2, self.TextColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end

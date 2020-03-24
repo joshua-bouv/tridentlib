@@ -13,8 +13,8 @@ function Panel:Init()
 	self.VBar:SetHideButtons(true)
 	self.VBar:SetWidth(8)
 
-	function self.VBar:Paint(_, h)
-		draw.RoundedBox(0, ws6, 0, 6, h, fade2)
+	function self.VBar:Paint(_, h, theme)
+		draw.RoundedBox(0, ws6, 0, 6, h, theme.Base.Fade2)
 	end
 
 	function self.pnlCanvas:Paint()	end
@@ -23,9 +23,12 @@ function Panel:Init()
 
 	function self.VBar.btnDown:Paint() end
 
-	function self.VBar.btnGrip:Paint(_, h)
-		draw.RoundedBox(0, ws6, 0, 6, h, fade5)
+	function self.VBar.btnGrip:Paint(_, h, theme)
+		draw.RoundedBox(0, ws6, 0, 6, h, theme.Base.Fade5)
 	end
+
+	self.VBar:tridentlib("THEME::Apply", "BFrame_Default")
+	self.VBar.btnGrip:tridentlib("THEME::Apply", "BFrame_Default")
 end
 
 function Panel:OnSizeChange()

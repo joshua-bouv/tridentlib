@@ -11,14 +11,7 @@ _tridentlib.defineAddon("Tridentlib", "tridentlib", "true")
 _tridentlib.loadFile("tridentlib/functions/meta.lua", "Meta Lib", "shared", 1)
 _tridentlib.loadFile("tridentlib/functions/color.lua", "Color Module", "client", 1)
 _tridentlib.loadFile("tridentlib/bgui/_functions.lua", "Functions", "client", 2)
-<<<<<<< HEAD
 _tridentlib.loadFile("tridentlib/bgui/btogglebox.lua", "Toggle Box", "client", 3)
-=======
-_tridentlib.loadFile("tridentlib/bgui/#bconnector.lua", "Connector", "client", 3)
-_tridentlib.loadFile("tridentlib/bgui/#bresizablebox.lua", "Resizable Box", "client", 3)
-_tridentlib.loadFile("tridentlib/bgui/#bendpoint.lua", "Endpoint", "client", 3)
-_tridentlib.loadFile("tridentlib/bgui/#bstarrater.lua", "Star rater", "client", 3)
->>>>>>> master
 _tridentlib.loadFile("tridentlib/bgui/bblueprint.lua", "Blueprint", "client", 3)
 _tridentlib.loadFile("tridentlib/bgui/bbutton.lua", "Button", "client", 3)
 _tridentlib.loadFile("tridentlib/bgui/bcalender.lua", "Calender", "client", 3)

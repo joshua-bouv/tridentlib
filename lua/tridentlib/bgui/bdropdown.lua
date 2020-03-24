@@ -11,15 +11,17 @@ function Panel:Init()
 	self.MenuTitle = ""
 	self.VisibleMenuTitle = ""
 	
-	self.InternalCol = tridentlib("THEME::Get", "Reports")["Base"]["Background"]
+	self.InternalCol = tridentlib("THEME::Get", "BFrame_Default")["Base"]["Background"]
 	self.Col = self.InternalCol
 	self.TargetCol = self.InternalCol
 
 	self.Outline = false
-	self.OutlineCol = white
+	self.OutlineCol = tridentlib("THEME::Get", "BFrame_Default")["Colors"]["White"]
 
 	self.MiniFont = "Default"
 	self.OptionFont = "Default"
+
+	self:tridentlib("THEME::Apply", "BFrame_Default")
 
 	self:SetTextInset(3, -1)
 end
@@ -31,16 +33,16 @@ function Panel:OnSizeChanged(w, h)
 	self.hs6 = h-6
 end
 
-function Panel:Paint(w)
-	draw.RoundedBox(4, 0, self.hs8, w, 8, fade3)
+function Panel:Paint(w, _, theme)
+	draw.RoundedBox(4, 0, self.hs8, w, 8, theme.Base.Fade3)
 	draw.RoundedBox(4, 0, 0, w, self.hs2, self.Col)	
 	if self.Outline then draw.RoundedBox(4, 0, 0, w, self.hs2, self.OutlineCol) draw.RoundedBox(4, 2, 2, self.ws4, self.hs6, self.Col) end
-	draw.SimpleText(self.VisibleMenuTitle, self.MiniFont, 5, 3, whiteText, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.SimpleText(self.VisibleMenuTitle, self.MiniFont, 5, 3, theme.Text.Default, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 
 	self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
 
 	if self:IsHovered() or self:IsMenuOpen() then
-		self.TargetCol = innerBackground
+		self.TargetCol = theme.Base.InnerBackground
 	else
 		self.TargetCol = self.InternalCol
 	end
@@ -61,9 +63,10 @@ function Panel:DoClick()
 
 	if !self.Menu then return end
 
-	self.Menu.Paint = function(_, w, h)
-		draw.RoundedBox(0, 0, 0, w, h, backGround)
+	self.Menu.Paint = function(_, w, h, theme)
+		draw.RoundedBox(0, 0, 0, w, h, theme.Base.Background)
 	end
+	self.Menu:tridentlib("THEME::Apply", "BFrame_Default")
 
 	for k, v in pairs(self.Menu:GetCanvas():GetChildren()) do
 		local check = ""
@@ -73,15 +76,16 @@ function Panel:DoClick()
 		end
 
 		v:SetFont(self.OptionFont)
-		v:SetColor(whiteText)
-		function v:Paint(w, h)
+		v:SetColor(tridentlib("THEME::Get", "BFrame_Default")["Text"]["Default"])
+		function v:Paint(w, h, theme)
 			if v:IsHovered() then
-				draw.RoundedBox(0, 1, 0, w-2, h-1, Color(32, 34, 37, 255))
+				draw.RoundedBox(0, 1, 0, w-2, h-1, theme.Base.InnerBackground)
 			else
-				draw.RoundedBox(0, 1, 0, w-2, h-1, backGround)
+				draw.RoundedBox(0, 1, 0, w-2, h-1, theme.Base.Background)
 			end
-			draw.SimpleText(check, "eventsTickFont", 15, h/2, whiteText, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			draw.SimpleText(check, "eventsTickFont", 15, h/2, theme.Text.Default, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 		end
+		v:tridentlib("THEME::Apply", "BFrame_Default")
 	end
 end
 
@@ -102,7 +106,7 @@ function Panel:SetOutline(bool)
 	if bool then
 		self.OutlineCol = self.InternalCol
 
-		self.InternalCol = backGround
+		self.InternalCol = tridentlib("THEME::Get", "BFrame_Default")["Base"]["Background"]
 		self.Col = self.InternalCol
 		self.TargetCol = self.InternalCol
 	end

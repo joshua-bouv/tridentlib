@@ -4,6 +4,10 @@
   "priority": 3
 --tridentlib]]
 
+/*
+DO TRIDENTLIB COLORS
+*/
+
 local Panel = {}
 
 function Panel:Init()

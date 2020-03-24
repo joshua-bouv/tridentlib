@@ -4,7 +4,7 @@
   "priority": 2
 --tridentlib]]
 
-
+/*
 header = Color(3, 169, 244, 255)
 backGround = Color(54, 57, 63, 255)
 innerBackground = Color(32, 34, 37, 255)
@@ -35,7 +35,12 @@ black = Color(0, 0, 0, 255)
 transparent = Color(0, 0, 0, 0)
 
 blueTransparent = Color(68, 138, 255, 0)
+*/
 
+
+/*
+DO TRIDENTLIB FUNCTION
+*/
 
 ----------------------
 function drawCircle(x, y, r)
@@ -69,17 +74,6 @@ function drawSpecialCircle(x, y, r)
 	end
 
 	surface.DrawPoly(circle)
-end
-
-function LerpColor(frac, from, to)
-    local col = Color(
-        Lerp(frac, from.r, to.r),
-        Lerp(frac, from.g, to.g),
-        Lerp(frac, from.b, to.b),
-        Lerp(frac, from.a, to.a)
-    )
-
-    return col
 end
 
 function LerpTransparency(frac, from, to)

@@ -9,11 +9,11 @@ local Panel = {}
 function Panel:Init()
 	self:SetToggle(false)
 
-	self.InternalCol = innerBackground
+	self.InternalCol = tridentlib("THEME::Get", "BFrame_Default")["Base"]["InnerBackground"]
 	self.colorLerpValue = self.InternalCol
 	self.targetColorLerpValue = self.InternalCol
 
-	print(self.Theme)
+	self:tridentlib("THEME::Apply", "BFrame_Default")
 end
 
 function Panel:OnSizeChanged(w, h)
@@ -37,9 +37,9 @@ function Panel:OnSizeChanged(w, h)
 	self.sliderTargetLerpValue = self.sliderOffValue
 end
 
-function Panel:Paint(w, h)
+function Panel:Paint(w, h, theme)
 	self.sliderLerpValue = Lerp(0.9, self.sliderTargetLerpValue, self.sliderLerpValue) -- make global func not global
-	self.colorLerpValue = LerpColor(0.94, self.targetColorLerpValue, self.colorLerpValue) -- make global func not global
+	self.colorLerpValue = tridentlib("LerpColor", 0.94, self.targetColorLerpValue, self.colorLerpValue)
 
 	draw.NoTexture()
 
@@ -48,7 +48,7 @@ function Panel:Paint(w, h)
 	drawSpecialCircle(self.circleX, self.circleY, self.circleR) -- make global func not global
 	drawSpecialCircle(self.circleX_2, self.circleY_2, self.circleR_2) -- make global func not global
 
-	surface.SetDrawColor(blue)
+	surface.SetDrawColor(theme.Colors.Blue)
 	drawSpecialCircle(self.sliderLerpValue, self.circleY, self.circleY) -- make global func not global
 end
 
@@ -59,7 +59,7 @@ end
 function Panel:OnChange(val)
 	if val then
 		self.sliderTargetLerpValue = self.sliderOnValue
-		self.targetColorLerpValue = lightBlue
+		self.targetColorLerpValue = tridentlib("THEME::Get", "BFrame_Default")["Colors"]["LightBlue"]
 	else
 		self.sliderTargetLerpValue = self.sliderOffValue
 		self.targetColorLerpValue = self.InternalCol
