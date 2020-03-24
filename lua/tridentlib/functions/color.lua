@@ -1,6 +1,7 @@
 --[[tridentlib
   "name": "Color Module",
-  "state": "Client"
+  "state": "Client",
+  "priority": 1
 --tridentlib]]
 
 _tridentlib.Theme = {}

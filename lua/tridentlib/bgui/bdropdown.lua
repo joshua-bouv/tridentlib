@@ -11,7 +11,7 @@ function Panel:Init()
 	self.MenuTitle = ""
 	self.VisibleMenuTitle = ""
 	
-	self.InternalCol = backGround
+	self.InternalCol = tridentlib("THEME::Get", "Reports")["Base"]["Background"]
 	self.Col = self.InternalCol
 	self.TargetCol = self.InternalCol
 

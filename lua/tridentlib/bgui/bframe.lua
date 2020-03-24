@@ -9,17 +9,17 @@ local Panel = {}
 tridentlib("THEME::Create", "BFrame_Default", {
     Default = {
         Base = {
-            Background = Color(255, 255, 255, 255),
-            InnerBackground = Color(235, 235, 235, 255),
+            Background = Color(54, 57, 63, 255),
+            InnerBackground = Color(32, 34, 37, 255),
             ContainerUnderline = Color(0, 0, 0, 25),
             ButtonBorder = Color(0, 0, 0, 50),
-            Fade2 = Color(0, 0, 0, 25),
-            Fade3 = Color(0, 0, 0, 50),   
+            Fade2 = Color(125, 125, 125, 25),
+            Fade3 = Color(125, 125, 125, 50),            
         },
         Text = {
-            Default = Color(100, 100, 100, 255),
+            Default = Color(255, 255, 255, 255),
             White = Color(255, 255, 255, 255),
-            Red = Color(255, 82, 82, 255),
+            Red = Color(244, 67, 54, 255),
             Blue = Color(68, 138, 255, 255),
             LightBlue = Color(98, 168, 255, 255),
             Green = Color(76, 175, 80, 255)
@@ -29,10 +29,10 @@ tridentlib("THEME::Create", "BFrame_Default", {
             Blue = Color(68, 138, 255, 255),
             LightBlue = Color(98, 168, 255, 255),
             Black = Color(0, 0, 0, 255),
-            Red = Color(255, 82, 82, 255)
+            Red = Color(244, 67, 54, 255)
         },
         Dashboard = {
-            Header = Color(231, 76, 60, 255),
+            Header = Color(244, 67, 54, 255),
             Fade1 = Color(0, 0, 0, 12.5),
             Fade2 = Color(0, 0, 0, 25),
             Fade3 = Color(0, 0, 0, 50),
