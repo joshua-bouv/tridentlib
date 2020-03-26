@@ -26,7 +26,7 @@ function Panel:Paint(w)
 	draw.RoundedBox(4, 0, self.hs8, w, 8, fade3)
 	draw.RoundedBox(4, 0, 0, w, self.hs2, self.Col)
 
-	self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
+	self.Col = tridentlib("LerpColor", 0.1, self.Col, self.TargetCol)
 
 	if self:IsHovered() or self:IsEditing() then
 		self.TargetCol = innerBackground

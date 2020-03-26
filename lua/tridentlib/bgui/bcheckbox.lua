@@ -30,7 +30,7 @@ function Panel:Paint(w, h)
 	draw.RoundedBox(4, 1, 1, self.ws2, self.hs2, self.Col)
 	draw.SimpleText(self.Text, self.Font, self.wd2, self.hd2, theme.Base.Default, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
-	self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
+	self.Col = tridentlib("LerpColor", 0.1, self.Col, self.TargetCol)
 	
 	if not self:GetToggle() then
 		if self:IsHovered() then

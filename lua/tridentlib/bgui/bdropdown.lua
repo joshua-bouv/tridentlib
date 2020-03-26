@@ -39,7 +39,7 @@ function Panel:Paint(w, _, theme)
 	if self.Outline then draw.RoundedBox(4, 0, 0, w, self.hs2, self.OutlineCol) draw.RoundedBox(4, 2, 2, self.ws4, self.hs6, self.Col) end
 	draw.SimpleText(self.VisibleMenuTitle, self.MiniFont, 5, 3, theme.Text.Default, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 
-	self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
+	self.Col = tridentlib("LerpColor", 0.1, self.Col, self.TargetCol)
 
 	if self:IsHovered() or self:IsMenuOpen() then
 		self.TargetCol = theme.Base.InnerBackground

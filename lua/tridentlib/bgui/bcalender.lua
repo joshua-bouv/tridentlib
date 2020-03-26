@@ -46,7 +46,7 @@ local function generateDays(self, days)
 				draw.RoundedBox(4, 0, 0, w, h, self.Col)
 				draw.SimpleText(i, "reports_text", w/2, h/2, theme.Text.Default, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
-				self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
+				self.Col = tridentlib("LerpColor", 0.1, self.Col, self.TargetCol)
 
 				if not self.Active then
 					if self:IsHovered() then
@@ -164,7 +164,7 @@ end
 function Panel:Paint(w, h, theme)
 	draw.RoundedBox(4, 0, self.hs8, w, 8, theme.Base.Fade3)
 	draw.RoundedBox(4, 0, 0, w, self.hs2, self.Col)	
-	self.Col = LerpColor(0.1, self.Col, self.TargetCol) -- make global func not global
+	self.Col = tridentlib("LerpColor", 0.1, self.Col, self.TargetCol)
 
 	if self:IsHovered() or self:IsMenuOpen() then
 		self.TargetCol = tridentlib("THEME::Get", "BFrame_Default")["Base"]["InnerBackground"]
