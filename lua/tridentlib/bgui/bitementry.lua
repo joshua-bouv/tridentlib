@@ -40,11 +40,7 @@ function Panel:Init()
 	self.variable:SetFont("reports_text_large")
 	self.variable:SetTextColor(tridentlib("THEME::Get", "BFrame_Default")["Text"]["Default"])
 	self.variable.OnEnter = function(textEntry)
-		self:AddItems({[1] = {["mainData"] = self.variable:GetValue(), ["otherData"] = false}})
-
-		self:ItemAdded()
-
-		self.variable:SetValue("")
+		// run function
 	end
 
 	self.delete = self:Add("BButton")
@@ -54,13 +50,8 @@ function Panel:Init()
 	self.delete:SetText("✕")
 	self.delete:SetFont("reports_text_extra_large")
 	self.delete:SetTextColor(tridentlib("THEME::Get", "Reports")["Text"]["Default"])
-	self.delete:TDLib():ClearPaint():Circle(blueText)
 	self.delete.DoClick = function()
-		self:AddItems({[1] = {["mainData"] = self.textEntry:GetValue(), ["otherData"] = false}})
-
-		self:ItemAdded()
-
-		self.textEntry:SetValue("")
+		// delete
 	end
 end
 
