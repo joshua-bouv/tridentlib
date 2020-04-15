@@ -71,7 +71,7 @@ function Panel:GetItems()
 	return self.itemList
 end
 
-function Panel:SizeSet(w, h)
+function Panel:OnSizeChanged(w, h)
 	self:SetSize(w, h)
 	self.textEntry:SetSize(w, h)
 end
