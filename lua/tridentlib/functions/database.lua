@@ -3,6 +3,7 @@
   "state": "Server",
   "priority": 10
 --tridentlib]]
+
 _tridentlib.Database = {}
 _tridentlib.Database.Operators = {}
 _tridentlib.Database.Operators["mysql"] = {

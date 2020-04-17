@@ -3,7 +3,7 @@
 ----------------------------------------------------------------
   TRIDENTCOM FILE LOADER
   Generated for Tridentlib
-  Generated at 2020/04/15
+  Generated at 2020/04/17
 ----------------------------------------------------------------
 */
 
@@ -31,6 +31,7 @@ _tridentlib.loadFile("tridentlib/bgui/btitlecard.lua", "Title Card", "client", 3
 _tridentlib.loadFile("tridentlib/bgui/btogglebox.lua", "Toggle Box", "client", 3)
 _tridentlib.loadFile("tridentlib/bgui/cl_tdlib.lua", "TDLIB", "client", 3)
 _tridentlib.loadFile("tridentlib/functions/database.lua", "Database Module", "server", 10)
+_tridentlib.loadFile("tridentlib/functions/wrapper.lua", "SQL Wrapper", "server", 10)
 _tridentlib.loadFile("tridentlib/functions/base.lua", "Base Module", "shared", 9999)
 _tridentlib.loadFile("tridentlib/functions/charts.lua", "Charts Module", "disabled", 9999)
 _tridentlib.loadFile("tridentlib/functions/dataset.lua", "Dataset Module", "server", 9999)
