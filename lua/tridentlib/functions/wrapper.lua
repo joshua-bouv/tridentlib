@@ -14,39 +14,53 @@ local function RunQuery(self)
 	local query = _tridentlib.SQL[self.table][self.name].query
 	local optionI = 0
 
-	function query:returnFunc(type, pos, data)
-		local types = {
-			["string"] = self:setString(pos, tostring(data)),
-			["number"] = self:setNumber(pos, tonumber(data)),
-			["boolean"] = self:setBoolean(pos, tobool(data)), // handle this
-			["nil"] = self:setNull(pos, data) // handle this
-		}
-
-		return types[type]
-	end
+	local TEMPDATAREMOVEME = ""
 
 	if (_tridentlib.SQL[self.table].type == "SQLITE") then
 		for i = 1, #query do
 			if (query:sub(i, i)) == "?" then
-				query = replaceChar(i, query, self.options[optionI])
+				query = replaceChar(i, query, sql.SQLStr(self.options[optionI]))
 				optionI = optionI + 1
 			end
 		end
+
+		if (self.output) then // TODO: HANDLE THIS PROPERLY
+			TEMPDATAREMOVEME = sql.Query(query) // make return		
+		else
+			sql.Query(query)
+		end
 	elseif ((_tridentlib.SQL[self.table].type == "MYSQLOO")) then
+		function query:returnFunc(type, pos, data)
+			local types = {
+				["string"] = self:setString(pos, tostring(data)),
+				["number"] = self:setNumber(pos, tonumber(data)),
+				["boolean"] = self:setBoolean(pos, tobool(data)),
+				["nil"] = self:setNull(pos, data) // handle this properly potentially not needs testing remember me!!!
+			}
+
+			return types[type]
+		end
+
 		if self.options != nil then
 			for k, v in pairs(self.options) do
 				query:returnFunc(type(v), k+1, self.options[optionI])
 				optionI = optionI + 1
 			end
 		end
+
+		if (self.output) then // TODO: HANDLE THIS PROPERLY
+			function query:onSuccess(data)
+				TEMPDATAREMOVEME = data  // make return
+			end
+		end
+
+		query:start()
 	end
 
-	print(query)
-	// run query
-	// return query result if any
+	print(TEMPDATAREMOVEME)
 end
 
-tridentlib("DefineFunction", "WRAPPER::RunQuery", RunQuery )
+tridentlib("DefineFunction", "WRAPPER::RunQuery", RunQuery)
 
 local function processQuery(db, store, type)
 	if (type == "MYSQLOO") then
@@ -60,11 +74,11 @@ local function AddQuery(self)
 	_tridentlib.SQL[self.table][self.store.name] = processQuery(self.db, self.store, _tridentlib.SQL[self.table].type)
 end
 
-tridentlib("DefineFunction", "WRAPPER::AddQuery", AddQuery )
+tridentlib("DefineFunction", "WRAPPER::AddQuery", AddQuery)
 
 local function Create(self)
 	_tridentlib.SQL[self.name] = {}
-	_tridentlib.SQL[self.name]["type"] = self.type
+	_tridentlib.SQL[self.name].type = self.type
 end
 
-tridentlib("DefineFunction", "WRAPPER::Create", Create )
+tridentlib("DefineFunction", "WRAPPER::Create", Create)
