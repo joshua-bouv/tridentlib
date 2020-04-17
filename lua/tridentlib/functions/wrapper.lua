@@ -11,12 +11,12 @@ local function replaceChar(pos, str, r)
 end
 
 local function RunQuery(self)
-	local query = _tridentlib.SQL[self.table][self.name].query
+	local query = _tridentlib.SQL[self.script][self.name].query
 	local optionI = 0
 
 	local TEMPDATAREMOVEME = ""
 
-	if (_tridentlib.SQL[self.table].type == "SQLITE") then
+	if (_tridentlib.SQL[self.script].type == "SQLITE") then
 		for i = 1, #query do
 			if (query:sub(i, i)) == "?" then
 				query = replaceChar(i, query, sql.SQLStr(self.options[optionI]))
@@ -29,7 +29,7 @@ local function RunQuery(self)
 		else
 			sql.Query(query)
 		end
-	elseif ((_tridentlib.SQL[self.table].type == "MYSQLOO")) then
+	elseif ((_tridentlib.SQL[self.script].type == "MYSQLOO")) then
 		function query:returnFunc(type, pos, data)
 			local types = {
 				["string"] = self:setString(pos, tostring(data)),
@@ -71,14 +71,15 @@ local function processQuery(db, store, type)
 end
 
 local function AddQuery(self)
-	_tridentlib.SQL[self.table][self.store.name] = processQuery(self.db, self.store, _tridentlib.SQL[self.table].type)
+	_tridentlib.SQL[self.script][self.store.name] = processQuery(_tridentlib.SQL[self.script].db, self.store, _tridentlib.SQL[self.script].type)
 end
 
 tridentlib("DefineFunction", "WRAPPER::AddQuery", AddQuery)
 
 local function Create(self)
-	_tridentlib.SQL[self.name] = {}
-	_tridentlib.SQL[self.name].type = self.type
+	_tridentlib.SQL[self.script] = {}
+	_tridentlib.SQL[self.script].db = self.db
+	_tridentlib.SQL[self.script].type = self.type
 end
 
 tridentlib("DefineFunction", "WRAPPER::Create", Create)
