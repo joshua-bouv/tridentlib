@@ -13,7 +13,7 @@ end
 local function RunQuery(self)
 	local query = _tridentlib.SQL[self.script][self.name].query
 	local optionI = 0
-
+	
 	local TEMPDATAREMOVEME = ""
 
 	if (_tridentlib.SQL[self.script].type == "SQLITE") then
