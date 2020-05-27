@@ -54,6 +54,8 @@ function Panel:Init()
 	self.hooks = {}
 	self.theme = "BFrame_Default"
 
+	gui.EnableScreenClicker(true)
+
 	self.closeButton = vgui.Create("DButton", self)
 	self.closeButton:SetPos(0, 450)
 	self.closeButton:SetSize(250, 50)
@@ -64,6 +66,7 @@ function Panel:Init()
 	self.closeButton:tridentlib("THEME::Apply", self.theme)
 	self.closeButton.DoClick = function()
 		hook.Run(self.hooks["close"])
+		gui.EnableScreenClicker(false)
 	end	
 
 	self.moreTabs = vgui.Create("DButton", self)

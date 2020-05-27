@@ -39,6 +39,7 @@ end
 function Panel:OnGetFocus()
 	if self:GetValue() == self.Title then
 		self:SetValue("")
+		print("been focused")
 		self.ValChanged = true
 	end
 end
