@@ -7,10 +7,10 @@
 local Panel = {}
 
 local function togglePanel(parent, panel, data)
-	if data['inputRequired'] != false then
+	if data.inputRequired != false then
 		parent:SetSize(135, 0)
 		panel:SetSize(135, 0)
-		panel:SetTitle(data['placeholder'])
+		panel:SetTitle(data.placeholder)
 		// type checking set
 	else
 		parent:SetSize(272.5, 0)
@@ -37,13 +37,13 @@ function Panel:Init()
 	self.target:SetSize(272.5, 40)
 	self.target:SetTitle("")
 	self.target:SetFont("reports_text_large")
-	self.target:SetTextColor(tridentlib("THEME::Get", "Reports")["Text"]["Default"])
-	self.target:SetColor(tridentlib("THEME::Get", "Reports")["Colors"]["Blue"])
+	self.target:SetTextColor(tridentlib("THEME::Get", "Reports").Text.Default)
+	self.target:SetColor(tridentlib("THEME::Get", "Reports").Colors.Red)
 	self.target:SetOptionFont("reports_text")
 	self.target:SetOutline(true)
 	self.target:SetSortItems(false)
 	self.target.OnSelect = function(_, index)
-		togglePanel(self.target, self.playerInfo, self.targets[index]['input'])
+		togglePanel(self.target, self.playerInfo, self.targets[index].input)
 	end
 
 	self.playerInfo = self.playerHandler:Add("BTextEntry")
@@ -68,13 +68,13 @@ function Panel:Init()
 	self.option:SetSize(272.5, 40)
 	self.option:SetTitle("")
 	self.option:SetFont("reports_text_large")
-	self.option:SetTextColor(tridentlib("THEME::Get", "Reports")["Text"]["Default"])
-	self.option:SetColor(tridentlib("THEME::Get", "Reports")["Colors"]["Red"])
+	self.option:SetTextColor(tridentlib("THEME::Get", "Reports").Text.Default)
+	self.option:SetColor(tridentlib("THEME::Get", "Reports").Colors.Red)
 	self.option:SetOptionFont("reports_text")
 	self.option:SetOutline(true)
 	self.option:SetSortItems(false)
 	self.option.OnSelect = function(_, index)
-		togglePanel(self.option, self.variable, self.options[index]['input'])
+		togglePanel(self.option, self.variable, self.options[index].input)
 	end
 
 	self.variable = self.actionHandler:Add("BTextEntry")
@@ -83,7 +83,7 @@ function Panel:Init()
 	self.variable:SetSize(135, 40)
 	self.variable:SetTitle("")
 	self.variable:SetFont("reports_text_large")
-	self.variable:SetTextColor(tridentlib("THEME::Get", "BFrame_Default")["Text"]["Default"])
+	self.variable:SetTextColor(tridentlib("THEME::Get", "BFrame_Default").Text.Default)
 	self.variable.OnEnter = function(textEntry)
 		// run function
 	end
@@ -94,8 +94,8 @@ function Panel:Init()
 	self.delete:SetSize(25, 25)
 	self.delete:SetTitle("✕")
 	self.delete:SetFont("reports_text")
-	self.delete:SetColor(tridentlib("THEME::Get", "Reports")["Colors"]["Red"])
-	self.delete:SetTextColor(tridentlib("THEME::Get", "Reports")["Text"]["Default"])
+	self.delete:SetColor(tridentlib("THEME::Get", "Reports").Colors.Red)
+	self.delete:SetTextColor(tridentlib("THEME::Get", "Reports").Text.Default)
 	self.delete.DoClick = function()
 		self:Remove()
 	end
@@ -105,20 +105,20 @@ function Panel:AddPlayerTargets(tbl)
 	self.targets = tbl
 
 	for _, v in ipairs(self.targets) do
-		self.target:AddChoice(v['text'])
+		self.target:AddChoice(v.text)
 	end
-	self.target:SetTitle(self.targets[1]['text'])
-	togglePanel(self.target, self.playerInfo, self.targets[1]['input'])
+	self.target:SetTitle(self.targets[1].text)
+	togglePanel(self.target, self.playerInfo, self.targets[1].input)
 end
 
 function Panel:AddPunishments(tbl)
 	self.options = tbl
 
 	for _, v in ipairs(self.options) do
-		self.option:AddChoice(v['text'])
+		self.option:AddChoice(v.text)
 	end
-	self.option:SetTitle(self.options[1]['text'])
-	togglePanel(self.option, self.variable, self.options[1]['input'])
+	self.option:SetTitle(self.options[1].text)
+	togglePanel(self.option, self.variable, self.options[1].input)
 end
 
 function Panel:Paint() end
