@@ -9,12 +9,11 @@ local Panel = {}
 local function togglePanel(parent, panel, data)
 	if data.inputRequired != false then
 		parent:SetSize(135, 0)
-		panel:SetSize(135, 0)
+		panel:SetVisible(true)
 		panel:SetTitle(data.placeholder)
-		// type checking set
 	else
+		panel:SetVisible(false)
 		parent:SetSize(272.5, 0)
-		panel:SetSize(0, 0)
 	end
 end
 
@@ -24,6 +23,7 @@ function Panel:Init()
 
 	self.variable = false
 	self.playerInfo = false
+	self.playerSelect = false
 
 	self:tridentlib("THEME::Apply", "BFrame_Default")
 
@@ -42,8 +42,12 @@ function Panel:Init()
 	self.target:SetOptionFont("reports_text")
 	self.target:SetOutline(true)
 	self.target:SetSortItems(false)
-	self.target.OnSelect = function(_, index)
-		togglePanel(self.target, self.playerInfo, self.targets[index].input)
+	self.target.OnSelect = function(_, index, _, optionData)
+		self.playerInfo:SetVisible(false)
+		self.playerSelect:SetVisible(false)
+		local panel = self.playerInfo
+		if optionData.input.type == "dropdown" then panel = self.playerSelect end
+		togglePanel(self.target, panel, optionData.input)
 	end
 
 	self.playerInfo = self.playerHandler:Add("BTextEntry")
@@ -52,9 +56,20 @@ function Panel:Init()
 	self.playerInfo:SetSize(135, 40)
 	self.playerInfo:SetTitle("")
 	self.playerInfo:SetFont("reports_text_large")
-	self.playerInfo:SetTextColor(tridentlib("THEME::Get", "BFrame_Default")["Text"]["Default"])
-	self.playerInfo.OnEnter = function(textEntry)
-		// run function
+	self.playerInfo:SetTextColor(tridentlib("THEME::Get", "BFrame_Default").Text.Default)
+
+	self.playerSelect = self.playerHandler:Add("BDropDown")
+	self.playerSelect:Dock(FILL)
+	self.playerSelect:DockMargin(5, 0, 0, 0)
+	self.playerSelect:SetSize(135, 40)
+	self.playerSelect:SetTitle("")
+	self.playerSelect:SetFont("reports_text_large")
+	self.playerSelect:SetTextColor(tridentlib("THEME::Get", "BFrame_Default").Text.Default)
+	self.playerSelect:SetOptionFont("reports_text")
+	self.playerSelect:SetOutline(false)
+	self.playerSelect:SetSortItems(false)
+	for _, ply in ipairs(player.GetHumans()) do
+		self.playerSelect:AddChoice(ply:Nick(), ply:SteamID64())
 	end
 
 	self.actionHandler = self:Add("DPanel")
@@ -84,15 +99,12 @@ function Panel:Init()
 	self.variable:SetTitle("")
 	self.variable:SetFont("reports_text_large")
 	self.variable:SetTextColor(tridentlib("THEME::Get", "BFrame_Default").Text.Default)
-	self.variable.OnEnter = function(textEntry)
-		// run function
-	end
 
 	self.delete = self:Add("BButton")
 	self.delete:Dock(RIGHT)
 	self.delete:DockMargin(0, 7.5, 0, 7.5)
 	self.delete:SetSize(25, 25)
-	self.delete:SetTitle("✕")
+	self.delete:SetTitle("✕ ")
 	self.delete:SetFont("reports_text")
 	self.delete:SetColor(tridentlib("THEME::Get", "Reports").Colors.Red)
 	self.delete:SetTextColor(tridentlib("THEME::Get", "Reports").Text.Default)
@@ -105,7 +117,7 @@ function Panel:AddPlayerTargets(tbl)
 	self.targets = tbl
 
 	for _, v in ipairs(self.targets) do
-		self.target:AddChoice(v.text)
+		self.target:AddChoice(v.text, v)
 	end
 	self.target:SetTitle(self.targets[1].text)
 	togglePanel(self.target, self.playerInfo, self.targets[1].input)
@@ -115,10 +127,29 @@ function Panel:AddPunishments(tbl)
 	self.options = tbl
 
 	for _, v in ipairs(self.options) do
-		self.option:AddChoice(v.text)
+		self.option:AddChoice(v.text, v)
 	end
 	self.option:SetTitle(self.options[1].text)
 	togglePanel(self.option, self.variable, self.options[1].input)
+end
+
+function Panel:GetVerdict()
+	local name, data = self.target:GetSelected()
+	local _, punishment = self.option:GetSelected()
+
+	if (data.input.inputRequired) then
+		if (data.input.type == "string") then
+			data.targets = {self.playerInfo:GetChangedVal()}
+		else
+			local _, id = self.playerSelect:GetSelected()
+			data.targets = {id}
+		end
+	end
+
+	// do same for punishments
+
+	local key = punishment.type
+	return {[key] = {targets = data.targets, extra = self.variable:GetChangedVal()}}
 end
 
 function Panel:Paint() end
