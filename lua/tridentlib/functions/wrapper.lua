@@ -13,7 +13,7 @@ end
 local function RunQuery(self)
 	local query = _tridentlib.SQL[self.script][self.name].query
 	local optionI = 0
-	
+
 	local TEMPDATAREMOVEME = ""
 
 	if (_tridentlib.SQL[self.script].type == "SQLITE") then
@@ -25,7 +25,7 @@ local function RunQuery(self)
 		end
 
 		if (self.output) then // TODO: HANDLE THIS PROPERLY
-			TEMPDATAREMOVEME = sql.Query(query) // make return		
+			TEMPDATAREMOVEME = sql.Query(query) // make return
 		else
 			sql.Query(query)
 		end
@@ -57,7 +57,7 @@ local function RunQuery(self)
 		query:start()
 	end
 
-	print(TEMPDATAREMOVEME)
+	return TEMPDATAREMOVEME
 end
 
 tridentlib("DefineFunction", "WRAPPER::RunQuery", RunQuery)

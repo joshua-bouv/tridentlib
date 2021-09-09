@@ -84,7 +84,7 @@ function Panel:Init()
 end
 
 function Panel:GetDate()
-	return ""..day.."/"..month.."/"..year..""
+	return os.date("%d/%m/%Y", os.time({day= day, month=month, year=year}))
 end
 
 function Panel:OnSizeChanged(w, h)

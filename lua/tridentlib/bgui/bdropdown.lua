@@ -48,12 +48,18 @@ function Panel:Paint(w, _, theme)
 	end
 end
 
+function Panel:OnOptionSelected(value)
+	-- for overide
+end
+
 function Panel:OnSelect()
 	self:SetTextInset(3, 3)
 
 	if self:GetTall() >= 35 then
 		self.VisibleMenuTitle = self.MenuTitle
 	end
+
+	self:OnOptionSelected(self:GetValue())
 end
 
 function Panel:DoClick()
